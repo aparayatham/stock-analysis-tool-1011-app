@@ -17,8 +17,9 @@ import {
   Paper,
 } from "@material-ui/core";
 import axios from "axios";
+import fileDownload from "js-file-download";
 import Loader from "react-loader-spinner";
-import underscore, { object } from "underscore";
+import underscore from "underscore";
 import {
   DataGrid,
   GridToolbarContainer,
@@ -38,6 +39,7 @@ class Simulation extends React.Component {
       loading: false,
       seldays: "",
       simulationtop: [],
+      rows: [],
     };
   }
 
@@ -120,26 +122,59 @@ class Simulation extends React.Component {
       .then((s) => {
         if (s.status === 200) {
           let response = s.data;
-          for (let i = 0; i < response.length; i++) {
-            const element = response[i];
-            var sim = element["simulation"];
-            sim = sim.replaceAll("False", "false");
-            sim = sim.replaceAll("True", "true");
-            sim = eval(JSON.parse(sim));
-            for (let j = 0; j < sim.length; j++) {
-              let ele = sim[j];
-              ele["id"] = j;
-              sim[j] = ele;
-            }
-            response[i]["simulation"] = sim;
-          }
-          let simkeys = Object.keys(response[0]["simulation"][0]);
+          // for (let i = 0; i < response.length; i++) {
+          //   const element = response[i];
+          //   var sim = element["simulation"];
+          //   sim = sim.replaceAll("False", "false");
+          //   sim = sim.replaceAll("True", "true");
+          //   sim = eval(JSON.parse(sim));
+          //   for (let j = 0; j < sim.length; j++) {
+          //     let ele = sim[j];
+          //     ele["id"] = j;
+          //     sim[j] = ele;
+          //   }
+          //   response[i]["simulation"] = sim;
+          // }
+          // let simkeys = Object.keys(response[0]["simulation"][0]);
+          // let cols = [];
+          // simkeys.slice(0, simkeys.length - 1).map((key) => {
+          //   cols.push({ field: key, headerName: key, width: 150 });
+          // });
+          // this.setState(
+          //   { simulationtop: response, cols: cols, loading: false },
+          //   () => {}
+          // );
+          let rows = [];
+          // for (let i = 0; i < response.length; i++) {
+          //   const element = response[i];
+          //   element["id"] = i;
+          //   response[i] = element;
+          //   rows.push({
+          //     id: element["id"],
+          //     company: element["company"],
+          //     code: element["code"],
+          //     average_return_percent: element["average_return_percent"],
+          //   });
+          // }
           let cols = [];
-          simkeys.slice(0, simkeys.length - 1).map((key) => {
-            cols.push({ field: key, headerName: key, width: 150 });
-          });
+          // Object.keys(response[0]).map((key) => {
+          //   cols.push({ field: key, headerName: key, width: 250 });
+          // });
+          // cols.pop();
+
+          // const button = {
+          //   fieldName: "",
+          //   headerName: "Download",
+          //   width: 250,
+          //   renderCell: (params) => {
+          //     return <Button onClick={onClick}>Click</Button>;
+          //   },
+          // };
+
+          // cols.push(button);
+          // console.log(cols);
           this.setState(
-            { simulationtop: response, cols: cols, loading: false },
+            { simulationtop: response, loading: false, rows: rows, cols: cols },
             () => {}
           );
         } else {
@@ -150,12 +185,30 @@ class Simulation extends React.Component {
         console.log(e);
       });
   };
+
   exportToCSV = () => {
     return (
       <GridToolbarContainer>
         <GridToolbarExport />
       </GridToolbarContainer>
     );
+  };
+  downloadfile = (e) => {
+    const simurl =
+      "https://raw.githubusercontent.com/saikr789/stock-index-risk/master/Data/SimulationResult/secid.csv";
+    const curr = e.currentTarget.value;
+    axios
+      .get(simurl.replace("secid", curr), {
+        responseType: "blob",
+      })
+      .then((r) => {
+        if (r.status === 200) {
+          fileDownload(r.data, curr + ".csv");
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   };
   render() {
     const today = new Date();
@@ -181,36 +234,94 @@ class Simulation extends React.Component {
           {this.state.simulationtop.length === 0 ? (
             <span />
           ) : (
-            <Grid>
-              {/* <Typography variant="h4"> Companies to invest</Typography> */}
+            <div>
+              <Grid container style={{ margin: "10px" }}>
+                <Grid xs={6}>
+                  <Typography variant="h6">{"Company"}</Typography>
+                </Grid>
+                <Grid xs>
+                  <Typography variant="h6">{"Returns"}</Typography>
+                </Grid>
+                <Grid xs>
+                  <Typography variant="h6">{"Simulation Result"}</Typography>
+                </Grid>
+              </Grid>
               {this.state.simulationtop.map((row) => {
                 return (
-                  <Accordion style={{ border: "none" }}>
-                    <AccordionSummary
-                      aria-controls="panel1a-content"
-                      id={row["company"]}
-                    >
+                  <Grid container style={{ margin: "10px" }}>
+                    <Grid xs={6}>
+                      <Typography variant="h6">{row["company"]}</Typography>
+                    </Grid>
+                    <Grid xs>
                       <Typography variant="h6">
-                        {row["company"]} {row["average_return_percent"]}
+                        {row["average_return_percent"]}
                       </Typography>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                      <DataGrid
-                        rows={row["simulation"]}
-                        columns={this.state.cols}
-                        autoHeight
-                        disableSelectionOnClick
-                        hideFooterPagination
-                        hideFooter
-                        components={{
-                          Toolbar: this.exportToCSV,
-                        }}
-                      />
-                    </AccordionDetails>
-                  </Accordion>
+                    </Grid>
+                    <Grid xs>
+                      <Button
+                        variant="outline"
+                        size="large"
+                        id={row["code"] + "_" + this.state.seldays}
+                        value={row["code"] + "_" + this.state.seldays}
+                        onClick={this.downloadfile}
+                      >
+                        Download
+                      </Button>
+                    </Grid>
+                  </Grid>
                 );
               })}
-            </Grid>
+            </div>
+            // <DataGrid
+            //   rows={this.state.rows}
+            //   columns={this.state.cols}
+            //   autoHeight
+            //   disableSelectionOnClick
+            //   hideFooterPagination
+            //   hideFooter
+            //   onRowClick={this.downloadfile}
+            // />
+            // <Grid>
+            //   <Typography variant="h4"> Companies to invest</Typography>
+            //   {this.state.simulationtop.map((row) => {
+            //     return (
+            //       <DataGrid
+            //         rows={row["simulation"]}
+            //         columns={this.state.cols}
+            //         autoHeight
+            //         disableSelectionOnClick
+            //         hideFooterPagination
+            //         hideFooter
+            //         components={{
+            //           Toolbar: this.exportToCSV,
+            //         }}
+            //       />
+            //     );
+            //     <Accordion style={{ border: "none" }}>
+            //       <AccordionSummary
+            //         aria-controls="panel1a-content"
+            //         id={row["company"]}
+            //       >
+            //         <Typography variant="h6">
+            //           {row["company"]} {row["average_return_percent"]}
+            //         </Typography>
+            //       </AccordionSummary>
+            //       <AccordionDetails>
+            //         <DataGrid
+            //           rows={row["simulation"]}
+            //           columns={this.state.cols}
+            //           autoHeight
+            //           disableSelectionOnClick
+            //           hideFooterPagination
+            //           hideFooter
+            //           components={{
+            //             Toolbar: this.exportToCSV,
+            //           }}
+            //         />
+            //       </AccordionDetails>
+            //     </Accordion>;
+            //   })}
+            // </Grid>
           )}
         </Grid>
 
