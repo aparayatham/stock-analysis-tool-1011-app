@@ -57,13 +57,20 @@ class CompanyDetails extends React.Component {
   };
 
   getCompanyDetails = async (company) => {
-    await axios.get("/api/companydetails?company=" + company).then((s) => {
-      if (s.status === 200) {
-        this.setState({ companyDetails: s.data, loading: false }, () => {});
-      } else {
+    await axios
+      .get("/api/companydetails?company=" + company)
+      .then((s) => {
+        if (s.status === 200) {
+          this.setState({ companyDetails: s.data, loading: false }, () => {});
+        } else {
+          this.setState({ companyDetails: [], loading: false }, () => {});
+        }
+      })
+      .catch((e) => {
+        console.log(e);
         this.setState({ companyDetails: [], loading: false }, () => {});
-      }
-    });
+      });
+    this.setState({ loading: true }, () => {});
     await axios
       .get("/api/previousdaystockdetails?company=" + company)
       .then((s) => {

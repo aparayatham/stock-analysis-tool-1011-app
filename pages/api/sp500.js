@@ -4,7 +4,7 @@ const axios = require("axios");
 export default (req, res, next) => {
   try {
     const sp500URL =
-      "https://raw.githubusercontent.com/saikr789/stock-analysis-tool-1011/master/Data/sp500.csv";
+      "https://raw.githubusercontent.com/saikr789/stock-analysis-tool-1011-data/master/Data/sp500.csv";
     axios
       .get(sp500URL)
       .then((s) => {
@@ -16,9 +16,8 @@ export default (req, res, next) => {
             const row = rows[i];
             const cols = row.split(",");
             var result = cols.reduce(function (result, field, index) {
-              result[
-                header[index].replace(/(\r\n|\n|\r)/gm, "")
-              ] = field.replace(/(\r\n|\n|\r)/gm, "");
+              result[header[index].replace(/(\r\n|\n|\r)/gm, "")] =
+                field.replace(/(\r\n|\n|\r)/gm, "");
               return result;
             }, {});
             sp500details.push(result);

@@ -8,9 +8,9 @@ export default async (req, res, next) => {
     let company = req.query["company"];
     company = company.toUpperCase();
     const companywithidURL =
-      "https://raw.githubusercontent.com/saikr789/stock-analysis-tool-1011/master/Data/companywithid.json";
+      "https://raw.githubusercontent.com/saikr789/stock-analysis-tool-1011-data/master/Data/companywithid.json";
     const grstockdetailsURL =
-      "https://raw.githubusercontent.com/saikr789/stock-analysis-tool-1011/master/Data/GRStock";
+      "https://raw.githubusercontent.com/saikr789/stock-analysis-tool-1011-data/master/Data/GRStock";
     axios
       .get(companywithidURL)
       .then((s) => {

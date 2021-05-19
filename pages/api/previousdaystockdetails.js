@@ -4,9 +4,9 @@ const axios = require("axios");
 export default async (req, res, next) => {
   try {
     const companywithidURL =
-      "https://raw.githubusercontent.com/saikr789/stock-analysis-tool-1011/master/Data/companywithid.json";
+      "https://raw.githubusercontent.com/saikr789/stock-analysis-tool-1011-data/master/Data/companywithid.json";
     const previousdaystockdetailsURL =
-      "https://raw.githubusercontent.com/saikr789/stock-analysis-tool-1011/master/Data/Stock/previousdaystockdetails.csv";
+      "https://raw.githubusercontent.com/saikr789/stock-analysis-tool-1011-data/master/Data/Stock/previousdaystockdetails.csv";
     let company = req.query["company"];
     if (company === undefined) {
       axios
@@ -20,9 +20,8 @@ export default async (req, res, next) => {
               const row = rows[i];
               const cols = row.split(",");
               var result = cols.reduce(function (result, field, index) {
-                result[
-                  header[index].replace(/(\r\n|\n|\r)/gm, "")
-                ] = field.replace(/(\r\n|\n|\r)/gm, "");
+                result[header[index].replace(/(\r\n|\n|\r)/gm, "")] =
+                  field.replace(/(\r\n|\n|\r)/gm, "");
                 return result;
               }, {});
               previousdaystockdetails.push(result);
@@ -56,9 +55,8 @@ export default async (req, res, next) => {
                     const cols = row.split(",");
                     if (parseInt(cols[codeindex]) === code) {
                       var result = cols.reduce(function (result, field, index) {
-                        result[
-                          header[index].replace(/(\r\n|\n|\r)/gm, "")
-                        ] = field.replace(/(\r\n|\n|\r)/gm, "");
+                        result[header[index].replace(/(\r\n|\n|\r)/gm, "")] =
+                          field.replace(/(\r\n|\n|\r)/gm, "");
                         return result;
                       }, {});
                       res.send(result);
