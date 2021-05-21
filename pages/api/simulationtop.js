@@ -24,7 +24,7 @@ export default async (req, res, next) => {
             response.push({
               company: data[0],
               code: data[1],
-              average_return_percent: data[2] / 100,
+              average_return_percent: data[2],
               // simulation: JSON.stringify(sim.slice(1, nlen - 1)),
             });
           }
