@@ -114,8 +114,6 @@ class Simulation extends React.Component {
 
   onSelectDays = (e) => {
     const days = e.target.value;
-    // const topurl =
-    //   "https://raw.githubusercontent.com/saikr789/stock-analysis-tool-1011/master/Data/Simulation/top_seldays.csv";
     this.setState({ seldays: days, loading: true }, () => {});
     axios
       .get("/api/simulationtop" + "?" + "days=" + days)
@@ -195,10 +193,10 @@ class Simulation extends React.Component {
   };
   downloadfile = (e) => {
     const simurl =
-      "https://raw.githubusercontent.com/saikr789/stock-index-risk/master/Data/SimulationResult/secid.csv";
+      "https://raw.githubusercontent.com/saikr789/stock-analysis-tool-1011-data/master/Data/SimulationResult/top_seldays.csv";
     const curr = e.currentTarget.value;
     axios
-      .get(simurl.replace("secid", curr), {
+      .get(simurl.replace("top_seldays", curr), {
         responseType: "blob",
       })
       .then((r) => {
