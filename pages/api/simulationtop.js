@@ -4,7 +4,7 @@ export default async (req, res, next) => {
     // const topurl =
     //   "https://raw.githubusercontent.com/saikr789/stock-analysis-tool-1011-data/master/Data/Simulation/top_seldays.csv";
     const topurl =
-      "https://raw.githubusercontent.com/saikr789/stock-analysis-tool-1011-data/master/Data/SimulationResult/top_seldays.csv";
+      "https://raw.githubusercontent.com/saikr789/stock-analysis-tool-1011-data/master/Data/Top/sim_seldays.csv";
     const days = req.query["days"];
     axios
       .get(topurl.replace("seldays", days))

@@ -222,11 +222,9 @@ class Simulation extends React.Component {
               onChange={this.onSelectDays}
               value={this.state.seldays}
             >
-              {[30, 60, 90, 180, 270, 360, 540, 720, 900, 1080].map(
-                (period) => {
-                  return <MenuItem value={period}>{period}</MenuItem>;
-                }
-              )}
+              {[30, 60, 90, 180, 360, 720, 1080].map((period) => {
+                return <MenuItem value={period}>{period}</MenuItem>;
+              })}
             </Select>
           </FormControl>
           {this.state.simulationtop.length === 0 ? (
