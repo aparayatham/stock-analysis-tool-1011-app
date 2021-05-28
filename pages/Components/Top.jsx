@@ -10,8 +10,8 @@ class Top extends React.Component {
     super(props);
     this.state = {
       loading: false,
-      num: 10,
-      type: "buy",
+      num: "",
+      type: "",
       topCompanies: [],
     };
   }
@@ -27,25 +27,26 @@ class Top extends React.Component {
     this.setState({ num: num, type: type, loading: true }, () => {});
 
     axios
-      .get("/api/previousdaystockdetails")
+      .get("/api/top?type=" + type + "&" + "num=" + num)
       .then((s) => {
         if (s.status === 200) {
-          let companyStockDetails = s.data;
-          if (type === "sell") {
-            companyStockDetails.sort((a, b) => {
-              return a["Close Price"] - b["Close Price"];
-            });
-          } else if (type === "buy") {
-            companyStockDetails.sort((a, b) => {
-              return b["Close Price"] - a["Close Price"];
-            });
-          }
-          companyStockDetails = companyStockDetails.slice(0, num);
-          let topCompanies = [];
-          for (let index = 0; index < companyStockDetails.length; index++) {
-            const element = companyStockDetails[index];
-            topCompanies.push(element["Company"]);
-          }
+          let topCompanies = s.data;
+          console.log(topCompanies);
+          // if (type === "sell") {
+          //   companyStockDetails.sort((a, b) => {
+          //     return a["Close Price"] - b["Close Price"];
+          //   });
+          // } else if (type === "buy") {
+          //   companyStockDetails.sort((a, b) => {
+          //     return b["Close Price"] - a["Close Price"];
+          //   });
+          // }
+          // companyStockDetails = companyStockDetails.slice(0, num);
+          // let topCompanies = [];
+          // for (let index = 0; index < companyStockDetails.length; index++) {
+          //   const element = companyStockDetails[index];
+          //   topCompanies.push(element["Company"]);
+          // }
           this.setState(
             { topCompanies: topCompanies, loading: false },
             () => {}
