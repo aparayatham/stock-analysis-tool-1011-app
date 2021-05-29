@@ -14,7 +14,7 @@ module.exports = {
       "/login": { page: "/Components/Home" },
       "/about": { page: "/Components/Home" },
       "/top/:num/:type": { page: "/Components/Home" },
-      "/companydetails/:name": { page: "/Components/CompanyDetails" },
+      "/companydetails/:name": { page: "/Components/Home" },
     };
   },
 };
