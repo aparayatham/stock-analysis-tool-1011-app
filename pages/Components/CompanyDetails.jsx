@@ -161,4 +161,4 @@ class CompanyDetails extends React.Component {
     );
   }
 }
-export default withRouter(CompanyDetails);
+export default CompanyDetails;
