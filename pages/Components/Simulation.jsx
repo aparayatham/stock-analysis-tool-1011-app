@@ -79,7 +79,11 @@ class Simulation extends React.Component {
             value={this.state.days}
           >
             {[30, 60, 90, 180, 360, 720, 1080].map((period) => {
-              return <MenuItem value={period}>{period}</MenuItem>;
+              return (
+                <MenuItem key={period.toString()} value={period}>
+                  {period}
+                </MenuItem>
+              );
             })}
           </Select>
         </FormControl>

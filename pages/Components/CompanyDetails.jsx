@@ -10,6 +10,7 @@ import React from "react";
 import axios from "axios";
 import Dashboard from "./Dashboard";
 import Loader from "react-loader-spinner";
+import { withRouter } from "react-router-dom";
 
 class CompanyDetails extends React.Component {
   constructor(props) {
@@ -120,11 +121,12 @@ class CompanyDetails extends React.Component {
               <Grid container>
                 {Object.keys(this.state.companyDetails).map((key) => {
                   if (this.state.companyDetails[key] === null) {
-                    return <span></span>;
+                    return <span key={key.toString()}></span>;
                   }
                   let res = key + " : " + this.state.companyDetails[key];
                   return (
                     <Chip
+                      key={key.toString()}
                       color="primary"
                       variant="outlined"
                       label={res}
@@ -143,6 +145,7 @@ class CompanyDetails extends React.Component {
             let res = key + " : " + this.state.stockdetails[key];
             return (
               <Chip
+                key={key.toString()}
                 color="primary"
                 variant="outlined"
                 label={res}
@@ -152,10 +155,10 @@ class CompanyDetails extends React.Component {
           })}
         {this.state.selectedCompany !== "" &&
           this.state.stockdetails.length !== 0 && (
-            <Dashboard company={this.state.selectedCompany} />
+            <Dashboard company={this.state.selectedCompany} key="dashboard" />
           )}
       </React.Fragment>
     );
   }
 }
-export default CompanyDetails;
+export default withRouter(CompanyDetails);

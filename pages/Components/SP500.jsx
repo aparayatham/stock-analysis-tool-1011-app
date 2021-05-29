@@ -9,13 +9,6 @@ class SP500 extends React.Component {
   }
   componentDidMount = () => {
     console.log("SP500");
-    // axios
-    //   .get("/sp500")
-    //   .then((s) => {
-    //     this.setState({ sp500: s.data, loading: false }, () => {});
-    //   })
-    //   .then(() => {})
-    //   .catch((e) => {});
   };
   render() {
     return (

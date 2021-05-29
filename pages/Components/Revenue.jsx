@@ -69,7 +69,7 @@ class Revenue extends React.Component {
               return (
                 <NavLink
                   style={{ textDecoration: "none" }}
-                  key={uuidv4()}
+                  key={company.toString()}
                   to={{
                     pathname: "/companydetails/" + company,
                   }}

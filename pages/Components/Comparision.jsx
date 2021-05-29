@@ -2,7 +2,6 @@ import React from "react";
 import axios from "axios";
 import underscore from "underscore";
 import Autocomplete from "@material-ui/lab/Autocomplete";
-
 import {
   FormControl,
   Grid,
@@ -67,7 +66,7 @@ class Comparision extends React.Component {
         if (s.status === 200) {
           this.setState({ companyNames: s.data }, () => {});
         } else {
-          this.setState({ companyNames: s.data }, () => {});
+          this.setState({ companyNames: [] }, () => {});
         }
       })
       .catch((e) => {
@@ -185,7 +184,10 @@ class Comparision extends React.Component {
               >
                 {Object.keys(this.state.timePeriod).map((period) => {
                   return (
-                    <MenuItem value={this.state.timePeriod[period]}>
+                    <MenuItem
+                      key={period.toString()}
+                      value={this.state.timePeriod[period]}
+                    >
                       {period}
                     </MenuItem>
                   );
@@ -232,7 +234,7 @@ class Comparision extends React.Component {
               {Object.keys(this.state.stockdetails).map((company) => {
                 const element = this.state.stockdetails[company];
                 return (
-                  <Grid item xs={6}>
+                  <Grid item xs={6} key={company.toString()}>
                     <Paper
                       style={{
                         display: "flex",
@@ -257,10 +259,14 @@ class Comparision extends React.Component {
                       price growth rate was more than {element["rate"]} %
                     </Typography>
                     <Dashboard company={element["company"]} />
-                    {this.state.stockkeys.map((key, i) => {
+                    {Object.keys(element).map((key) => {
+                      if (key.toLowerCase() === "company") {
+                        return;
+                      }
                       let res = key + " : " + element[key];
                       return (
                         <Chip
+                          key={key.toString()}
                           color="primary"
                           variant="outlined"
                           label={res}
