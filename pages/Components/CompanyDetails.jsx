@@ -63,9 +63,9 @@ class CompanyDetails extends React.Component {
       .then((s) => {
         if (s.status === 200) {
           let companyDetails = s.data;
-          await axios.get("/api/suggest?company=" + company).then((s) => {
+          axios.get("/api/suggest?company=" + company).then((t) => {
             if (t.status === 200) {
-              companyDetails.push(t.data);
+              companyDetails = Object.assign(companyDetails, t.data);
             }
           });
           this.setState(
@@ -139,7 +139,7 @@ class CompanyDetails extends React.Component {
         <Divider />
         <Divider />
         {this.state.stockdetails.length !== 0 &&
-          this.state.stockkeys.map((key) => {
+          Object.keys(this.state.stockdetails).map((key) => {
             let res = key + " : " + this.state.stockdetails[key];
             return (
               <Chip
