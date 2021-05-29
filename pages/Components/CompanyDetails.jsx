@@ -32,6 +32,7 @@ class CompanyDetails extends React.Component {
         "% Deli. Qty to Traded Qty",
         "Spread High-Low",
         "Spread Close-Open",
+        "suggest",
       ],
       stockdetails: [],
     };
@@ -39,7 +40,6 @@ class CompanyDetails extends React.Component {
 
   componentDidMount = () => {
     console.log("CompanyDetails");
-    console.log(this.props);
     const { match } = this.props;
     const company = match.params.company;
     this.setState({ selectedCompany: company }, () => {
@@ -47,12 +47,31 @@ class CompanyDetails extends React.Component {
     });
   };
 
+  getSuggestion = async (company) => {
+    await axios.get("/api/suggest?company=" + company).then((s) => {
+      if (s.status === 200) {
+        const companyDetails = this.state.companyDetails;
+        companyDetails.push(s.data);
+        this.setState({ companyDetails: companyDetails }, () => {});
+      } else {
+      }
+    });
+  };
   getCompanyDetails = async (company) => {
     await axios
       .get("/api/companydetails?company=" + company)
       .then((s) => {
         if (s.status === 200) {
-          this.setState({ companyDetails: s.data, loading: false }, () => {});
+          let companyDetails = s.data;
+          await axios.get("/api/suggest?company=" + company).then((s) => {
+            if (t.status === 200) {
+              companyDetails.push(t.data);
+            }
+          });
+          this.setState(
+            { companyDetails: companyDetails, loading: false },
+            () => {}
+          );
         } else {
           this.setState({ companyDetails: [], loading: false }, () => {});
         }
@@ -61,6 +80,7 @@ class CompanyDetails extends React.Component {
         console.log(e);
         this.setState({ companyDetails: [], loading: false }, () => {});
       });
+
     this.setState({ loading: true }, () => {});
     await axios
       .get("/api/previousdaystockdetails?company=" + company)
