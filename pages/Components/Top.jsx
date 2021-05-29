@@ -18,10 +18,6 @@ class Top extends React.Component {
 
   componentDidMount = () => {
     console.log("Top");
-    const { history, location } = this.props;
-    if ("state" in location && location.state === undefined) {
-      history.push("/");
-    }
     const { match } = this.props;
     const { num, type } = match.params;
     this.setState({ num: num, type: type, loading: true }, () => {});
@@ -31,22 +27,6 @@ class Top extends React.Component {
       .then((s) => {
         if (s.status === 200) {
           let topCompanies = s.data;
-          console.log(topCompanies);
-          // if (type === "sell") {
-          //   companyStockDetails.sort((a, b) => {
-          //     return a["Close Price"] - b["Close Price"];
-          //   });
-          // } else if (type === "buy") {
-          //   companyStockDetails.sort((a, b) => {
-          //     return b["Close Price"] - a["Close Price"];
-          //   });
-          // }
-          // companyStockDetails = companyStockDetails.slice(0, num);
-          // let topCompanies = [];
-          // for (let index = 0; index < companyStockDetails.length; index++) {
-          //   const element = companyStockDetails[index];
-          //   topCompanies.push(element["Company"]);
-          // }
           this.setState(
             { topCompanies: topCompanies, loading: false },
             () => {}

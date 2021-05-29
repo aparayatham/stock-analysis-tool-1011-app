@@ -17,7 +17,6 @@ export default (req, res, next) => {
           const header = rows[0].split(",");
           const companyindex = header.indexOf("company");
           for (let i = 1; i < num + 1; i++) {
-            console.log(i);
             const row = rows[i];
             const cols = row.split(",");
             // var result = cols.reduce(function (result, field, index) {

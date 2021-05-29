@@ -11,16 +11,6 @@ import axios from "axios";
 import Dashboard from "./Dashboard";
 import Loader from "react-loader-spinner";
 
-const styles = (theme) => ({
-  formControl: {
-    margin: theme.spacing(1),
-    minWidth: 150,
-  },
-  selectEmpty: {
-    marginTop: theme.spacing(2),
-  },
-});
-
 class CompanyDetails extends React.Component {
   constructor(props) {
     super(props);
@@ -49,6 +39,7 @@ class CompanyDetails extends React.Component {
 
   componentDidMount = () => {
     console.log("CompanyDetails");
+    console.log(this.props);
     const { match } = this.props;
     const company = match.params.company;
     this.setState({ selectedCompany: company }, () => {
@@ -147,4 +138,4 @@ class CompanyDetails extends React.Component {
     );
   }
 }
-export default withStyles(styles)(CompanyDetails);
+export default CompanyDetails;

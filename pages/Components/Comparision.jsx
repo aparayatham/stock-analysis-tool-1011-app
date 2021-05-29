@@ -62,7 +62,7 @@ class Comparision extends React.Component {
   componentDidMount = () => {
     console.log("Comparision");
     axios
-      .get("/api/companyNames")
+      .get("/api/companynames")
       .then((s) => {
         if (s.status === 200) {
           this.setState({ companyNames: s.data }, () => {});
