@@ -1,10 +1,10 @@
+const path = require("path");
+
 module.exports = {
-  exportPathMap: async function (
-    defaultPathMap,
-    { dev, dir, outDir, distDir, buildId }
-  ) {
+  trailingSlash: true,
+  target: "serverless",
+  exportPathMap: async () => {
     return {
-      // "/": { page: "/" },
       "/simulation": { page: "/Components/Home" },
       "/sectors": { page: "/Components/Home" },
       "/revenue": { page: "/Components/Home" },
