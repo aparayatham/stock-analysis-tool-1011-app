@@ -143,6 +143,9 @@ class CompanyDetails extends React.Component {
         {this.state.stockdetails.length !== 0 &&
           Object.keys(this.state.stockdetails).map((key) => {
             let res = key + " : " + this.state.stockdetails[key];
+            if (key.toLowerCase() == "code") {
+              return;
+            }
             return (
               <Chip
                 key={key.toString()}
