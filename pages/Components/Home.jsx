@@ -14,7 +14,7 @@ import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import { withStyles } from "@material-ui/core/styles";
-import { Route, Switch, BrowserRouter } from "react-router-dom";
+import { Route, Switch, BrowserRouter, HashRouter } from "react-router-dom";
 
 import About from "./About";
 import CompanyDetails from "./CompanyDetails";
@@ -108,7 +108,7 @@ class Home extends React.Component {
     const { classes, theme } = this.props;
     const open = this.state.open;
     return (
-      <BrowserRouter>
+      <HashRouter>
         <CssBaseline />
         <AppBar
           position="relative"
@@ -198,7 +198,7 @@ class Home extends React.Component {
             </Switch>
           </main>
         </div>
-      </BrowserRouter>
+      </HashRouter>
     );
   }
 }
