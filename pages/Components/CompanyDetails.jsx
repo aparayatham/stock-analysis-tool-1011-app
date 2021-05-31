@@ -8,9 +8,10 @@ import {
 } from "@material-ui/core";
 import React from "react";
 import axios from "axios";
-import Dashboard from "./Dashboard";
 import Loader from "react-loader-spinner";
 import { withRouter } from "react-router-dom";
+
+import Dashboard from "./Dashboard";
 
 class CompanyDetails extends React.Component {
   constructor(props) {

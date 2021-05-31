@@ -2,7 +2,6 @@ import { Paper, Typography } from "@material-ui/core";
 import axios from "axios";
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { v4 as uuidv4 } from "uuid";
 import Loader from "react-loader-spinner";
 
 class Top extends React.Component {

@@ -1,5 +1,5 @@
 import { TextField } from "@material-ui/core";
-import Autocomplete from "@material-ui/lab/Autocomplete";
+import { Autocomplete } from "@material-ui/lab";
 import axios from "axios";
 import React from "react";
 

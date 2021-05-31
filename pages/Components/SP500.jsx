@@ -1,7 +1,8 @@
 import React from "react";
-import Dashboard from "./Dashboard";
-import axios from "axios";
 import { Paper, Typography } from "@material-ui/core";
+
+import Dashboard from "./Dashboard";
+
 class SP500 extends React.Component {
   constructor(props) {
     super(props);

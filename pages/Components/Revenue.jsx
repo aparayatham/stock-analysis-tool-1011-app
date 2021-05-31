@@ -1,7 +1,6 @@
 import { Paper, Typography } from "@material-ui/core";
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 import Loader from "react-loader-spinner";
 

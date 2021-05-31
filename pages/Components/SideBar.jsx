@@ -4,8 +4,8 @@ import {
   AccordionSummary,
   Paper,
   withStyles,
+  Typography,
 } from "@material-ui/core";
-import Typography from "@material-ui/core/Typography";
 import React from "react";
 import { NavLink } from "react-router-dom";
 const styles = (theme) => ({

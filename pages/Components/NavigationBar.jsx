@@ -1,7 +1,5 @@
-import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
-import Typography from "@material-ui/core/Typography";
+import { TextField, Typography, Grid } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import React from "react";
 import { NavLink, withRouter } from "react-router-dom";
@@ -56,7 +54,7 @@ class NavigationBar extends React.Component {
   render() {
     const { classes } = this.props;
     return (
-      <Grid container className={classes.root} spacing={2}>
+      <Grid container className={classes.root} spacing={1}>
         <Grid item>
           <NavLink to="/" className={classes.link}>
             <Typography className={classes.grid} variant="h4">
