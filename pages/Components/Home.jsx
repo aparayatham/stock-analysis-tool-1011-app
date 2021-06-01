@@ -2,6 +2,7 @@ import React from "react";
 import clsx from "clsx";
 import {
   Paper,
+  Avatar,
   Drawer,
   AppBar,
   Toolbar,
@@ -14,7 +15,13 @@ import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import { withStyles } from "@material-ui/core/styles";
-import { Route, Switch, BrowserRouter, HashRouter } from "react-router-dom";
+import {
+  Route,
+  Switch,
+  BrowserRouter,
+  HashRouter,
+  withRouter,
+} from "react-router-dom";
 
 import About from "./About";
 import CompanyDetails from "./CompanyDetails";
@@ -63,13 +70,17 @@ const styles = (theme) => ({
   drawerPaper: {
     width: drawerWidth,
   },
+  avatar: {
+    width: theme.spacing(10),
+    height: theme.spacing(10),
+  },
   drawerHeader: {
     display: "flex",
     alignItems: "center",
-    padding: theme.spacing(0, 1),
+    padding: theme.spacing(2),
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
-    justifyContent: "flex-end",
+    justifyContent: "center",
   },
   content: {
     flexGrow: 1,
@@ -97,6 +108,10 @@ class Home extends React.Component {
     };
   }
 
+  componentDidMount = () => {
+    console.log("Home");
+  };
+
   handleDrawerOpen = () => {
     this.setState({ open: true });
   };
@@ -104,18 +119,19 @@ class Home extends React.Component {
   handleDrawerClose = () => {
     this.setState({ open: false });
   };
+
   render() {
     const { classes, theme } = this.props;
     const open = this.state.open;
     return (
-      <HashRouter>
+      <React.Fragment>
         <CssBaseline />
         <AppBar
           position="relative"
           className={clsx(classes.appBar, {
             [classes.appBarShift]: open,
           })}
-          style={{ backgroundColor: "inherit", color: "inherit" }}
+          style={{ backgroundColor: "#00B6CD", color: "#ffffff" }}
         >
           <Toolbar>
             <IconButton
@@ -140,7 +156,14 @@ class Home extends React.Component {
               paper: classes.drawerPaper,
             }}
           >
-            <div className={classes.drawerHeader}>
+            <div
+              className={classes.drawerHeader}
+              style={{ backgroundColor: "#019587", color: "#ffffff" }}
+            >
+              {/* <img
+                src="/images/stocks3.jpg"
+                style={{ width: "100%", padding: "10px" }}
+              /> */}
               <Typography variant="h4">Stock Trends</Typography>
               <IconButton onClick={this.handleDrawerClose}>
                 {theme.direction === "ltr" ? (
@@ -160,6 +183,7 @@ class Home extends React.Component {
           >
             <Switch>
               <Route exact path="/" />
+              <Route exact path="/home" />
               <Route exact path="/login" component={Login} />
               <Route exact path="/about" component={About} />
               <Route exact path="/performance" component={Performance} />
@@ -198,8 +222,8 @@ class Home extends React.Component {
             </Switch>
           </main>
         </div>
-      </HashRouter>
+      </React.Fragment>
     );
   }
 }
-export default withStyles(styles, { withTheme: true })(Home);
+export default withStyles(styles, { withTheme: true })(withRouter(Home));

@@ -4,8 +4,25 @@ import axios from "axios";
 import dynamic from "next/dynamic";
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
-import { ButtonGroup, Button, Divider } from "@material-ui/core";
+import { ButtonGroup, Button, Divider, withStyles } from "@material-ui/core";
 import Loader from "react-loader-spinner";
+
+const styles = (theme) => ({
+  chart: {
+    width: "75%",
+  },
+  divchart: {
+    justifyContent: "center",
+    alignItems: "center",
+    display: "flex",
+  },
+  buttongroup: {
+    display: "flex",
+    justifyContent: "center",
+    margin: "10px",
+  },
+});
+
 class Dashboard extends React.Component {
   constructor(props) {
     super(props);
@@ -204,6 +221,7 @@ class Dashboard extends React.Component {
   };
 
   render() {
+    const { classes } = this.props;
     return (
       <React.Fragment>
         {this.state.loading ? (
@@ -214,14 +232,7 @@ class Dashboard extends React.Component {
               <Divider />
               <Divider />
               <Divider />
-              <ButtonGroup
-                color="primary"
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  margin: "10px",
-                }}
-              >
+              <ButtonGroup color="primary" className={classes.buttongroup}>
                 <Button key="7" value="7" onClick={this.selectedPeriod}>
                   7D
                 </Button>
@@ -244,11 +255,14 @@ class Dashboard extends React.Component {
                   All
                 </Button>
               </ButtonGroup>
-              <Chart
-                options={this.state.options}
-                series={this.state.series}
-                key="chart"
-              />
+              <div className={classes.divchart}>
+                <Chart
+                  options={this.state.options}
+                  series={this.state.series}
+                  key="chart"
+                  className={classes.chart}
+                />
+              </div>
             </div>
           )
         )}
@@ -257,4 +271,4 @@ class Dashboard extends React.Component {
   }
 }
 
-export default Dashboard;
+export default withStyles(styles, { withTheme: true })(Dashboard);

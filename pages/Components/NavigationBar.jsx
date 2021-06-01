@@ -13,10 +13,15 @@ const styles = (theme) => ({
     color: theme.palette.text.secondary,
   },
   link: {
-    textDecoration: "none",
+    textDecoration: "initial",
+  },
+  typography: {
+    padding: 20,
   },
   grid: {
-    padding: 20,
+    "&:hover": {
+      backgroundColor: "#c2c2c2",
+    },
   },
 });
 
@@ -55,52 +60,77 @@ class NavigationBar extends React.Component {
     const { classes } = this.props;
     return (
       <Grid container className={classes.root} spacing={1}>
-        <Grid item>
-          <NavLink to="/" className={classes.link}>
-            <Typography className={classes.grid} variant="h4">
+        <Grid item className={classes.grid}>
+          <NavLink
+            to="/home"
+            className={classes.link}
+            activeStyle={{ color: "blue" }}
+          >
+            <Typography className={classes.typography} variant="h4">
               Home
             </Typography>
           </NavLink>
         </Grid>
-        <Grid item>
-          <NavLink to="/about" className={classes.link}>
-            <Typography className={classes.grid} variant="h4">
+        <Grid item className={classes.grid}>
+          <NavLink
+            to="/about"
+            className={classes.link}
+            activeStyle={{ color: "blue" }}
+          >
+            <Typography className={classes.typography} variant="h4">
               About
             </Typography>
           </NavLink>
         </Grid>
-        <Grid item>
-          <NavLink to="/performance" className={classes.link}>
-            <Typography className={classes.grid} variant="h4">
+        <Grid item className={classes.grid}>
+          <NavLink
+            to="/performance"
+            className={classes.link}
+            activeStyle={{ color: "blue" }}
+          >
+            <Typography className={classes.typography} variant="h4">
               Performance
             </Typography>
           </NavLink>
         </Grid>
-        <Grid item>
-          <NavLink to="/login" className={classes.link}>
-            <Typography className={classes.grid} variant="h4">
+        <Grid item className={classes.grid}>
+          <NavLink
+            to="/login"
+            className={classes.link}
+            activeStyle={{ color: "blue" }}
+          >
+            <Typography className={classes.typography} variant="h4">
               Login
             </Typography>
           </NavLink>
         </Grid>
-        <Grid item>
-          <NavLink to="/comparision" className={classes.link}>
-            <Typography className={classes.grid} variant="h4">
+        <Grid item className={classes.grid}>
+          <NavLink
+            to="/comparision"
+            className={classes.link}
+            activeStyle={{ color: "blue" }}
+          >
+            <Typography className={classes.typography} variant="h4">
               Comparision
             </Typography>
           </NavLink>
         </Grid>
-        <Grid item>
-          <NavLink to="/simulation" className={classes.link}>
-            <Typography className={classes.grid} variant="h4">
+        <Grid item className={classes.grid}>
+          <NavLink
+            to="/simulation"
+            className={classes.link}
+            activeStyle={{ color: "blue" }}
+          >
+            <Typography className={classes.typography} variant="h4">
               Simulation
             </Typography>
           </NavLink>
         </Grid>
-        <Grid item>
+        <Grid item className={classes.grid}>
           <Autocomplete
             style={{ width: "200px" }}
-            value={this.state.selectedCompany}
+            // value={this.state.selectedCompany}
+            inputValue=""
             onChange={(e, val) => {
               this.selectedCompany(e, val);
             }}

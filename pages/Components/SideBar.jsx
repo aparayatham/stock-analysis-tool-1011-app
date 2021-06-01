@@ -27,6 +27,8 @@ const styles = (theme) => ({
       width: "100%",
       height: "100%",
     },
+    backgroundColor: "#019587",
+    color: "#ffffff",
   },
 });
 
@@ -44,7 +46,13 @@ class SideBar extends React.Component {
     return (
       <React.Fragment>
         <Paper className={classes.paper} elevation={0}>
-          <Accordion style={{ border: "none" }}>
+          <Accordion
+            style={{
+              border: "none",
+              backgroundColor: "#019587",
+              color: "#ffffff",
+            }}
+          >
             <AccordionSummary aria-controls="panel1a-content" id="top10">
               <Typography variant="h4">TOP 10</Typography>
             </AccordionSummary>
@@ -71,7 +79,13 @@ class SideBar extends React.Component {
           </Accordion>
         </Paper>
         <Paper className={classes.paper} elevation={0}>
-          <Accordion>
+          <Accordion
+            style={{
+              border: "none",
+              backgroundColor: "#019587",
+              color: "#ffffff",
+            }}
+          >
             <AccordionSummary aria-controls="panel1a-content">
               <Typography variant="h4">TOP 30</Typography>
             </AccordionSummary>

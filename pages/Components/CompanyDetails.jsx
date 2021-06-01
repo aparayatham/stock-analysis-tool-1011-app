@@ -9,9 +9,19 @@ import {
 import React from "react";
 import axios from "axios";
 import Loader from "react-loader-spinner";
-import { withRouter } from "react-router-dom";
 
 import Dashboard from "./Dashboard";
+
+const styles = (theme) => ({
+  papercompany: {
+    display: "flex",
+    padding: "15px",
+    margin: "15px",
+    justifyContent: "center",
+    color: "grey",
+  },
+  chip: { margin: "5px", backgroundColor: "#ffffff", color: "#5F00E7" },
+});
 
 class CompanyDetails extends React.Component {
   constructor(props) {
@@ -95,19 +105,12 @@ class CompanyDetails extends React.Component {
   };
 
   render() {
+    const { classes } = this.props;
     return (
       <React.Fragment>
         {this.state.selectedCompany !== "" && (
           <div>
-            <Paper
-              elevation={3}
-              style={{
-                display: "flex",
-                padding: "15px",
-                margin: "15px",
-                justifyContent: "center",
-              }}
-            >
+            <Paper elevation={3} className={classes.papercompany}>
               <Typography variant="h4">{this.state.selectedCompany}</Typography>
             </Paper>
             <Divider />
@@ -120,13 +123,27 @@ class CompanyDetails extends React.Component {
                     return <span key={key.toString()}></span>;
                   }
                   let res = key + " : " + this.state.companyDetails[key];
+
+                  if (key == "suggest") {
+                    return (
+                      <Chip
+                        key={key.toString()}
+                        variant="outlined"
+                        label={res.toUpperCase()}
+                        style={{
+                          backgroundColor: "red",
+                          margin: "5px",
+                          color: "#ffffff",
+                        }}
+                      />
+                    );
+                  }
                   return (
                     <Chip
                       key={key.toString()}
-                      color="primary"
                       variant="outlined"
                       label={res}
-                      style={{ margin: "5px" }}
+                      className={classes.chip}
                     />
                   );
                 })}
@@ -139,16 +156,15 @@ class CompanyDetails extends React.Component {
         {this.state.stockdetails.length !== 0 &&
           Object.keys(this.state.stockdetails).map((key) => {
             let res = key + " : " + this.state.stockdetails[key];
-            if (key.toLowerCase() == "code") {
+            if (key.toLowerCase() == "code" || key.toLowerCase() == "company") {
               return;
             }
             return (
               <Chip
                 key={key.toString()}
-                color="primary"
                 variant="outlined"
                 label={res}
-                style={{ margin: "5px" }}
+                className={classes.chip}
               />
             );
           })}
@@ -160,4 +176,5 @@ class CompanyDetails extends React.Component {
     );
   }
 }
-export default CompanyDetails;
+
+export default withStyles(styles, { withTheme: true })(CompanyDetails);
