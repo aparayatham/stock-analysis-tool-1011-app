@@ -11,8 +11,8 @@ const styles = (theme) => ({
     justifyContent: "center",
     backgroundColor: "inherit",
     "&:hover": {
-      backgroundColor: "#c2c2c2",
-      color: "red",
+      backgroundColor: "#15DB95",
+      color: "#0D19A3",
     },
   },
   navlink: {
@@ -64,7 +64,7 @@ class Top extends React.Component {
           <Loader />
         ) : (
           <div style={{ backgroundColor: "inherit" }}>
-            <Paper elevation={1} className={classes.paper}>
+            <Paper elevation={0} className={classes.paper}>
               <Typography variant="h4">
                 Top {this.state.num} Companies for{" "}
                 {this.state.type === "buy" ? "Investing" : "Trading"}

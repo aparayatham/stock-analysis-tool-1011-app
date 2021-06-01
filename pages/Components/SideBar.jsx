@@ -27,8 +27,14 @@ const styles = (theme) => ({
       width: "100%",
       height: "100%",
     },
-    backgroundColor: "#019587",
-    color: "#ffffff",
+    backgroundColor: "#15DB95",
+    color: "#0D19A3",
+  },
+
+  accordion: {
+    border: "none",
+    backgroundColor: "#15DB95",
+    color: "#0D19A3",
   },
 });
 
@@ -46,13 +52,7 @@ class SideBar extends React.Component {
     return (
       <React.Fragment>
         <Paper className={classes.paper} elevation={0}>
-          <Accordion
-            style={{
-              border: "none",
-              backgroundColor: "#019587",
-              color: "#ffffff",
-            }}
-          >
+          <Accordion className={classes.accordion}>
             <AccordionSummary aria-controls="panel1a-content" id="top10">
               <Typography variant="h4">TOP 10</Typography>
             </AccordionSummary>
@@ -79,13 +79,7 @@ class SideBar extends React.Component {
           </Accordion>
         </Paper>
         <Paper className={classes.paper} elevation={0}>
-          <Accordion
-            style={{
-              border: "none",
-              backgroundColor: "#019587",
-              color: "#ffffff",
-            }}
-          >
+          <Accordion className={classes.accordion}>
             <AccordionSummary aria-controls="panel1a-content">
               <Typography variant="h4">TOP 30</Typography>
             </AccordionSummary>
@@ -111,9 +105,9 @@ class SideBar extends React.Component {
             </AccordionDetails>
           </Accordion>
         </Paper>
-        <Paper className={classes.paper} elevation={0}>
+        <Paper elevation={0} className={classes.paper}>
           <NavLink to={{ pathname: "/sectors" }} className={classes.link}>
-            <Paper className={classes.paper} elevation={0}>
+            <Paper elevation={0} className={classes.paper}>
               <Typography variant="h4">Sectors</Typography>
             </Paper>
           </NavLink>
@@ -137,4 +131,4 @@ class SideBar extends React.Component {
   }
 }
 
-export default withStyles(styles)(SideBar);
+export default withStyles(styles, { withTheme: true })(SideBar);

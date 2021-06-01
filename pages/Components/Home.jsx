@@ -131,7 +131,7 @@ class Home extends React.Component {
           className={clsx(classes.appBar, {
             [classes.appBarShift]: open,
           })}
-          style={{ backgroundColor: "#00B6CD", color: "#ffffff" }}
+          style={{ backgroundColor: "#15DB95", color: "#0D19A3" }}
         >
           <Toolbar>
             <IconButton
@@ -158,12 +158,8 @@ class Home extends React.Component {
           >
             <div
               className={classes.drawerHeader}
-              style={{ backgroundColor: "#019587", color: "#ffffff" }}
+              style={{ backgroundColor: "#15DB95", color: "#0D19A3" }}
             >
-              {/* <img
-                src="/images/stocks3.jpg"
-                style={{ width: "100%", padding: "10px" }}
-              /> */}
               <Typography variant="h4">Stock Trends</Typography>
               <IconButton onClick={this.handleDrawerClose}>
                 {theme.direction === "ltr" ? (
@@ -184,9 +180,7 @@ class Home extends React.Component {
             <Switch>
               <Route exact path="/" />
               <Route exact path="/home" />
-              <Route exact path="/login" component={Login} />
               <Route exact path="/about" component={About} />
-              <Route exact path="/performance" component={Performance} />
               <Route
                 exact
                 path="/top/:num/:type"

@@ -20,8 +20,8 @@ const styles = (theme) => ({
   },
   grid: {
     "&:hover": {
-      backgroundColor: "#c2c2c2",
-      color: "red",
+      backgroundColor: "#F4E4C1",
+      color: "#E4C580",
     },
   },
 });
@@ -85,28 +85,6 @@ class NavigationBar extends React.Component {
         </Grid>
         <Grid item className={classes.grid}>
           <NavLink
-            to="/performance"
-            className={classes.link}
-            activeStyle={{ color: "blue" }}
-          >
-            <Typography className={classes.typography} variant="h4">
-              Performance
-            </Typography>
-          </NavLink>
-        </Grid>
-        <Grid item className={classes.grid}>
-          <NavLink
-            to="/login"
-            className={classes.link}
-            activeStyle={{ color: "blue" }}
-          >
-            <Typography className={classes.typography} variant="h4">
-              Login
-            </Typography>
-          </NavLink>
-        </Grid>
-        <Grid item className={classes.grid}>
-          <NavLink
             to="/comparision"
             className={classes.link}
             activeStyle={{ color: "blue" }}
@@ -127,7 +105,7 @@ class NavigationBar extends React.Component {
             </Typography>
           </NavLink>
         </Grid>
-        <Grid item className={classes.grid}>
+        <Grid item>
           <Autocomplete
             style={{ width: "200px" }}
             // value={this.state.selectedCompany}
