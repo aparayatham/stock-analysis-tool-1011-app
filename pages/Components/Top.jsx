@@ -9,6 +9,7 @@ const styles = (theme) => ({
     display: "flex",
     padding: "15px",
     justifyContent: "center",
+    backgroundColor: "inherit",
     "&:hover": {
       backgroundColor: "#c2c2c2",
       color: "red",
@@ -62,7 +63,7 @@ class Top extends React.Component {
         {this.state.loading ? (
           <Loader />
         ) : (
-          <div>
+          <div style={{ backgroundColor: "inherit" }}>
             <Paper elevation={1} className={classes.paper}>
               <Typography variant="h4">
                 Top {this.state.num} Companies for{" "}

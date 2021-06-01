@@ -30,6 +30,7 @@ class CompanyDetails extends React.Component {
       companyCurrentDayStockDetails: [],
       selectedCompany: "",
       loading: true,
+      suggest: "",
       stockkeys: [
         "Date",
         "Open Price",
@@ -64,16 +65,7 @@ class CompanyDetails extends React.Component {
       .then((s) => {
         if (s.status === 200) {
           let companyDetails = s.data;
-          axios
-            .get("/api/suggest?company=" + company)
-            .then((t) => {
-              if (t.status === 200) {
-                companyDetails = Object.assign(companyDetails, t.data);
-              }
-            })
-            .catch((e) => {
-              console.log(e);
-            });
+
           this.setState(
             { companyDetails: companyDetails, loading: false },
             () => {}
@@ -101,6 +93,18 @@ class CompanyDetails extends React.Component {
         console.log(e);
         this.setState({ stockdetails: [], loading: false }, () => {});
       });
+
+    await axios
+      .get("/api/suggest?company=" + company)
+      .then((t) => {
+        if (t.status === 200) {
+          let suggest = t.data;
+          this.setState({ suggest: suggest["suggest"] }, () => {});
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   };
 
   render() {
@@ -122,21 +126,6 @@ class CompanyDetails extends React.Component {
                     return <span key={key.toString()}></span>;
                   }
                   let res = key + " : " + this.state.companyDetails[key];
-
-                  if (key == "suggest") {
-                    return (
-                      <Chip
-                        key={key.toString()}
-                        variant="outlined"
-                        label={res.toUpperCase()}
-                        style={{
-                          backgroundColor: "green",
-                          margin: "5px",
-                          color: "#ffffff",
-                        }}
-                      />
-                    );
-                  }
                   return (
                     <Chip
                       key={key.toString()}
@@ -146,6 +135,16 @@ class CompanyDetails extends React.Component {
                     />
                   );
                 })}
+                <Chip
+                  key={"suggest"}
+                  variant="outlined"
+                  label={"SUGGEST : " + this.state.suggest.toUpperCase()}
+                  style={{
+                    backgroundColor: "green",
+                    margin: "5px",
+                    color: "#ffffff",
+                  }}
+                />
               </Grid>
             )}
           </div>

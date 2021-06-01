@@ -41,7 +41,7 @@ class Dashboard extends React.Component {
       series: [],
       options: {
         chart: {
-          background: "#ffffff",
+          background: "inherit",
           type: "area",
           height: "auto",
           zoom: {
@@ -69,7 +69,7 @@ class Dashboard extends React.Component {
         },
         title: {
           text: "Stock Price Movement",
-          align: "left",
+          align: "center",
           style: {
             fontSize: "24px",
             fontWeight: "bold",

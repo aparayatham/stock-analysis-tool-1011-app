@@ -9,6 +9,7 @@ const styles = (theme) => ({
     display: "flex",
     padding: "15px",
     justifyContent: "center",
+    backgroundColor: "inherit",
     "&:hover": {
       backgroundColor: "#c2c2c2",
       color: "red",
