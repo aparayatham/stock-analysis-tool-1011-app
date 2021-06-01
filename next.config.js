@@ -5,6 +5,7 @@ module.exports = {
   target: "serverless",
   exportPathMap: async () => {
     return {
+      "/home": { page: "/Components/Home" },
       "/simulation": { page: "/Components/Home" },
       "/sectors": { page: "/Components/Home" },
       "/revenue": { page: "/Components/Home" },
