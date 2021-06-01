@@ -1,8 +1,23 @@
-import { Paper, Typography } from "@material-ui/core";
+import { Paper, Typography, withStyles } from "@material-ui/core";
 import React from "react";
 import { NavLink } from "react-router-dom";
 import axios from "axios";
 import Loader from "react-loader-spinner";
+
+const styles = (theme) => ({
+  paper: {
+    display: "flex",
+    padding: "15px",
+    justifyContent: "center",
+    "&:hover": {
+      backgroundColor: "#c2c2c2",
+      color: "red",
+    },
+  },
+  navlink: {
+    textDecoration: "none",
+  },
+});
 
 class Revenue extends React.Component {
   constructor(props) {
@@ -45,38 +60,28 @@ class Revenue extends React.Component {
   };
 
   render() {
+    const { classes } = this.props;
     return (
       <React.Fragment>
         {this.state.loading ? (
           <Loader />
         ) : (
           <div>
-            <Paper
-              elevation={1}
-              style={{
-                display: "flex",
-                padding: "15px",
-                margin: "15px",
-                justifyContent: "center",
-              }}
-            >
-              <Typography variant="h4" color="primary">
+            <Paper elevation={1} className={classes.paper}>
+              <Typography variant="h4">
                 Top {this.state.num} Companies Revenue wise
               </Typography>
             </Paper>
             {this.state.topCompanies.map((company) => {
               return (
                 <NavLink
-                  style={{ textDecoration: "none" }}
+                  className={classes.navlink}
                   key={company.toString()}
                   to={{
                     pathname: "/companydetails/" + company,
                   }}
                 >
-                  <Paper
-                    elevation={1}
-                    style={{ display: "flex", padding: "10px", margin: "10px" }}
-                  >
+                  <Paper elevation={0} className={classes.paper}>
                     <Typography variant="h6">{company}</Typography>
                   </Paper>
                 </NavLink>
@@ -89,4 +94,4 @@ class Revenue extends React.Component {
   }
 }
 
-export default Revenue;
+export default withStyles(styles, { withTheme: true })(Revenue);

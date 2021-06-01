@@ -21,6 +21,7 @@ const styles = (theme) => ({
   grid: {
     "&:hover": {
       backgroundColor: "#c2c2c2",
+      color: "red",
     },
   },
 });

@@ -21,6 +21,12 @@ const styles = (theme) => ({
     justifyContent: "center",
     margin: "10px",
   },
+  button: {
+    "&:hover": {
+      backgroundColor: "red",
+      color: "#ffffff",
+    },
+  },
 });
 
 class Dashboard extends React.Component {
@@ -233,25 +239,60 @@ class Dashboard extends React.Component {
               <Divider />
               <Divider />
               <ButtonGroup color="primary" className={classes.buttongroup}>
-                <Button key="7" value="7" onClick={this.selectedPeriod}>
+                <Button
+                  key="7"
+                  value="7"
+                  className={classes.button}
+                  onClick={this.selectedPeriod}
+                >
                   7D
                 </Button>
-                <Button key="30" value="30" onClick={this.selectedPeriod}>
+                <Button
+                  key="30"
+                  value="30"
+                  className={classes.button}
+                  onClick={this.selectedPeriod}
+                >
                   1M
                 </Button>
-                <Button key="90" value="90" onClick={this.selectedPeriod}>
+                <Button
+                  key="90"
+                  value="90"
+                  className={classes.button}
+                  onClick={this.selectedPeriod}
+                >
                   3M
                 </Button>
-                <Button key="180" value="180" onClick={this.selectedPeriod}>
+                <Button
+                  key="180"
+                  value="180"
+                  className={classes.button}
+                  onClick={this.selectedPeriod}
+                >
                   6M
                 </Button>
-                <Button key="360" value="360" onClick={this.selectedPeriod}>
+                <Button
+                  key="360"
+                  value="360"
+                  className={classes.button}
+                  onClick={this.selectedPeriod}
+                >
                   1Y
                 </Button>
-                <Button key="1800" value="1800" onClick={this.selectedPeriod}>
+                <Button
+                  key="1800"
+                  value="1800"
+                  className={classes.button}
+                  onClick={this.selectedPeriod}
+                >
                   5Y
                 </Button>
-                <Button key="all" value="all" onClick={this.selectedPeriod}>
+                <Button
+                  key="all"
+                  value="all"
+                  className={classes.button}
+                  onClick={this.selectedPeriod}
+                >
                   All
                 </Button>
               </ButtonGroup>

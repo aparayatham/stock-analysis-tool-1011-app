@@ -1,8 +1,23 @@
-import { Paper, Typography } from "@material-ui/core";
+import { Paper, Typography, withStyles } from "@material-ui/core";
 import axios from "axios";
 import React from "react";
 import { NavLink } from "react-router-dom";
 import Loader from "react-loader-spinner";
+
+const styles = (theme) => ({
+  paper: {
+    display: "flex",
+    padding: "15px",
+    justifyContent: "center",
+    "&:hover": {
+      backgroundColor: "#c2c2c2",
+      color: "red",
+    },
+  },
+  navlink: {
+    textDecoration: "none",
+  },
+});
 
 class Top extends React.Component {
   constructor(props) {
@@ -41,22 +56,15 @@ class Top extends React.Component {
   };
 
   render() {
+    const { classes } = this.props;
     return (
       <React.Fragment>
         {this.state.loading ? (
           <Loader />
         ) : (
           <div>
-            <Paper
-              elevation={1}
-              style={{
-                display: "flex",
-                padding: "15px",
-                margin: "15px",
-                justifyContent: "center",
-              }}
-            >
-              <Typography variant="h4" color="primary">
+            <Paper elevation={1} className={classes.paper}>
+              <Typography variant="h4">
                 Top {this.state.num} Companies for{" "}
                 {this.state.type === "buy" ? "Investing" : "Trading"}
               </Typography>
@@ -64,16 +72,13 @@ class Top extends React.Component {
             {this.state.topCompanies.map((company) => {
               return (
                 <NavLink
-                  style={{ textDecoration: "none" }}
+                  className={classes.navlink}
                   key={company.toString()}
                   to={{
                     pathname: "/companydetails/" + company,
                   }}
                 >
-                  <Paper
-                    elevation={1}
-                    style={{ display: "flex", padding: "10px", margin: "10px" }}
-                  >
+                  <Paper elevation={0} className={classes.paper}>
                     <Typography variant="h6">{company}</Typography>
                   </Paper>
                 </NavLink>
@@ -86,4 +91,4 @@ class Top extends React.Component {
   }
 }
 
-export default Top;
+export default withStyles(styles, { withTheme: true })(Top);

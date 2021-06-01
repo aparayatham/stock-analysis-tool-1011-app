@@ -13,12 +13,11 @@ import Loader from "react-loader-spinner";
 import Dashboard from "./Dashboard";
 
 const styles = (theme) => ({
-  papercompany: {
+  paper: {
     display: "flex",
     padding: "15px",
     margin: "15px",
     justifyContent: "center",
-    color: "grey",
   },
   chip: { margin: "5px", backgroundColor: "#ffffff", color: "#5F00E7" },
 });
@@ -110,7 +109,7 @@ class CompanyDetails extends React.Component {
       <React.Fragment>
         {this.state.selectedCompany !== "" && (
           <div>
-            <Paper elevation={3} className={classes.papercompany}>
+            <Paper elevation={3} className={classes.paper}>
               <Typography variant="h4">{this.state.selectedCompany}</Typography>
             </Paper>
             <Divider />
@@ -131,7 +130,7 @@ class CompanyDetails extends React.Component {
                         variant="outlined"
                         label={res.toUpperCase()}
                         style={{
-                          backgroundColor: "red",
+                          backgroundColor: "green",
                           margin: "5px",
                           color: "#ffffff",
                         }}
@@ -156,7 +155,11 @@ class CompanyDetails extends React.Component {
         {this.state.stockdetails.length !== 0 &&
           Object.keys(this.state.stockdetails).map((key) => {
             let res = key + " : " + this.state.stockdetails[key];
-            if (key.toLowerCase() == "code" || key.toLowerCase() == "company") {
+            if (
+              key.toLowerCase() == "code" ||
+              key.toLowerCase() == "company" ||
+              key.toLowerCase() == "unix date"
+            ) {
               return;
             }
             return (
