@@ -1,4 +1,3 @@
-const underscore = require("underscore");
 const axios = require("axios");
 
 export default async (req, res, next) => {
