@@ -158,16 +158,18 @@ class Dashboard extends React.Component {
     } else {
       company = this.props.company;
     }
+    const prevcompany = JSON.parse(localStorage.getItem("company"));
+
     if (
       prevcompany != null &&
-      prevcompany === company &&
+      company !== "sp500" &&
+      company === prevcompany &&
       this.state.stockChartDetails.length != 0
     ) {
       this.setState({ details: this.state.stockChartDetails }, () => {});
       return;
     }
 
-    const prevcompany = JSON.parse(localStorage.getItem("company"));
     if (company === "sp500" && this.state.sp500ChartDetails.length != 0) {
       this.setState({ details: this.state.sp500ChartDetails }, () => {});
       return;
