@@ -182,10 +182,26 @@ class Dashboard extends React.Component {
   };
 
   createGraph = (days) => {
+    let openPriceData = {
+      name: "Open Price",
+      data: [],
+    };
+
+    let lowPriceData = {
+      name: "Low Price",
+      data: [],
+    };
+
+    let highPriceData = {
+      name: "High Price",
+      data: [],
+    };
+
     let closePriceData = {
       name: "Close Price",
       data: [],
     };
+
     days =
       days === "all"
         ? this.state.details.length - 1
@@ -197,6 +213,21 @@ class Dashboard extends React.Component {
     const data = this.state.details.slice(0, days);
     for (let i = 0; i < data.length; i++) {
       const element = data[i];
+      openPriceData.data.push({
+        x: element["Date"],
+        y: element["Open Price"] || element["Open"],
+      });
+
+      lowPriceData.data.push({
+        x: element["Date"],
+        y: element["Low Price"] || element["Low"],
+      });
+
+      highPriceData.data.push({
+        x: element["Date"],
+        y: element["High Price"] || element["High"],
+      });
+
       closePriceData.data.push({
         x: element["Date"],
         y: element["Close Price"] || element["Close"],
@@ -206,7 +237,11 @@ class Dashboard extends React.Component {
     options.xaxis["min"] = fromDate;
     options.xaxis["max"] = toDate;
     const series = [];
+    series.push(openPriceData);
+    series.push(lowPriceData);
+    series.push(highPriceData);
     series.push(closePriceData);
+
     this.setState(
       {
         series: series,
