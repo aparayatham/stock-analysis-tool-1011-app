@@ -5,6 +5,8 @@ import dynamic from "next/dynamic";
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 import { ButtonGroup, Button, Divider, withStyles } from "@material-ui/core";
+import { withRouter } from "react-router-dom";
+
 import Loader from "react-loader-spinner";
 
 const styles = (theme) => ({
@@ -33,10 +35,14 @@ class Dashboard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      loading: true,
-      details: [],
+      loading: false,
+      details: JSON.parse(localStorage.getItem("details")) || [],
+      sp500ChartDetails:
+        JSON.parse(localStorage.getItem("sp500ChartDetails")) || [],
+      stockChartDetails:
+        JSON.parse(localStorage.getItem("stockChartDetails")) || [],
       selectedPeriod: "",
-      company: "",
+      company: JSON.parse(localStorage.getItem("company")) || "",
       error: false,
       series: [],
       options: {
@@ -145,39 +151,82 @@ class Dashboard extends React.Component {
 
   componentDidMount = () => {
     console.log("Dashboard");
-    if (this.props.company !== "sp500") {
-      this.setState({ company: this.props.company }, () => {
-        axios
-          .get("/api/stockdetails?company=" + this.state.company)
-          .then((s) => {
-            if (s.status === 200) {
-              this.setState({ details: s.data, loading: false }, () => {});
-            } else {
-              this.setState({ details: [], loading: false }, () => {});
-            }
-          })
-          .then(() => {})
-          .catch((e) => {
-            console.log(e);
-            this.setState({ loading: false, error: true }, () => {});
-          });
-      });
+    const { match } = this.props;
+    let company = "";
+    if ("company" in match.params) {
+      company = match.params.company;
     } else {
-      this.setState({ company: this.props.company }, () => {
-        axios
-          .get("/api/sp500")
-          .then((s) => {
-            if (s.status === 200) {
-              this.setState({ details: s.data, loading: false }, () => {});
-            } else {
-              this.setState({ details: [], loading: false }, () => {});
-            }
-          })
-          .catch((e) => {
-            console.log(e);
-            this.setState({ loading: false, error: true }, () => {});
-          });
-      });
+      company = this.props.company;
+    }
+    if (
+      prevcompany != null &&
+      prevcompany === company &&
+      this.state.stockChartDetails.length != 0
+    ) {
+      this.setState({ details: this.state.stockChartDetails }, () => {});
+      return;
+    }
+
+    const prevcompany = JSON.parse(localStorage.getItem("company"));
+    if (company === "sp500" && this.state.sp500ChartDetails.length != 0) {
+      this.setState({ details: this.state.sp500ChartDetails }, () => {});
+      return;
+    }
+
+    this.setState({ company: company }, () => {
+      localStorage.setItem("company", JSON.stringify(this.state.company));
+      this.getDetails(company);
+    });
+  };
+
+  getDetails = async (company) => {
+    this.setState({ loading: true }, () => {});
+    if (company !== "sp500") {
+      await axios
+        .get("/api/stockdetails?company=" + company)
+        .then((s) => {
+          if (s.status === 200) {
+            this.setState({ stockChartDetails: s.data, loading: false }, () => {
+              localStorage.setItem(
+                "stockChartDetails",
+                JSON.stringify(this.state.stockChartDetails)
+              );
+            });
+          } else {
+            this.setState({ details: [], loading: false }, () => {});
+          }
+        })
+        .then(() => {})
+        .catch((e) => {
+          console.log(e);
+          this.setState({ loading: false, error: true }, () => {});
+        });
+    } else {
+      this.setState({ sp500: true }, () => {});
+      await axios
+        .get("/api/sp500")
+        .then((s) => {
+          if (s.status === 200) {
+            this.setState({ sp500ChartDetails: s.data, loading: false }, () => {
+              localStorage.setItem(
+                "sp500ChartDetails",
+                JSON.stringify(this.state.sp500ChartDetails)
+              );
+            });
+          } else {
+            this.setState({ details: [], loading: false }, () => {});
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+          this.setState({ loading: false, error: true }, () => {});
+        });
+    }
+
+    if (company == "sp500") {
+      this.setState({ details: this.state.sp500ChartDetails }, () => {});
+    } else {
+      this.setState({ details: this.state.stockChartDetails }, () => {});
     }
   };
 
@@ -347,4 +396,4 @@ class Dashboard extends React.Component {
   }
 }
 
-export default withStyles(styles, { withTheme: true })(Dashboard);
+export default withStyles(styles, { withTheme: true })(withRouter(Dashboard));

@@ -25,9 +25,9 @@ class Top extends React.Component {
     super(props);
     this.state = {
       loading: false,
-      num: "",
-      type: "",
-      topCompanies: [],
+      num: JSON.parse(localStorage.getItem("num")) || "",
+      type: JSON.parse(localStorage.getItem("type")) || "",
+      topCompanies: JSON.parse(localStorage.getItem("topCompanies")) || [],
     };
   }
 
@@ -35,17 +35,29 @@ class Top extends React.Component {
     console.log("Top");
     const { match } = this.props;
     const { num, type } = match.params;
-    this.setState({ num: num, type: type, loading: true }, () => {});
+    const prevnum = JSON.parse(localStorage.getItem("num"));
+    const prevtype = JSON.parse(localStorage.getItem("type"));
+    const topCompanies = JSON.parse(localStorage.getItem("topCompanies"));
 
+    if (prevtype === type && prevnum === num && topCompanies != null) {
+      return;
+    }
+
+    this.setState({ num: num, type: type, loading: true }, () => {
+      localStorage.setItem("num", JSON.stringify(this.state.num));
+      localStorage.setItem("type", JSON.stringify(this.state.type));
+    });
     axios
       .get("/api/top?type=" + type + "&" + "num=" + num)
       .then((s) => {
         if (s.status === 200) {
           let topCompanies = s.data;
-          this.setState(
-            { topCompanies: topCompanies, loading: false },
-            () => {}
-          );
+          this.setState({ topCompanies: topCompanies, loading: false }, () => {
+            localStorage.setItem(
+              "topCompanies",
+              JSON.stringify(this.state.topCompanies)
+            );
+          });
         } else {
           this.setState({ topCompanies: [], loading: false }, () => {});
         }

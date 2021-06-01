@@ -11,10 +11,10 @@ class Simulation extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      cols: [],
+      cols: JSON.parse(localStorage.getItem("cols")) || [],
       loading: false,
-      days: "",
-      rows: [],
+      days: JSON.parse(localStorage.getItem("days")) || "",
+      rows: JSON.parse(localStorage.getItem("rows")) || [],
     };
   }
 
@@ -22,10 +22,13 @@ class Simulation extends React.Component {
     console.log("Simulation");
   };
 
-  onSelectDays = (e) => {
+  onSelectDays = async (e) => {
     const days = e.target.value;
-    this.setState({ days: days, loading: true }, () => {});
-    axios
+    this.setState({ days: days }, () => {
+      localStorage.setItem("days", JSON.stringify(this.state.days));
+    });
+    this.setState({ loading: true }, () => {});
+    await axios
       .get("/api/simulationtop" + "?" + "days=" + days)
       .then((s) => {
         if (s.status === 200) {
@@ -46,7 +49,10 @@ class Simulation extends React.Component {
               cols.splice(i, 1);
             }
           }
-          this.setState({ rows: rows, cols: cols, loading: false }, () => {});
+          this.setState({ rows: rows, cols: cols, loading: false }, () => {
+            localStorage.setItem("rows", JSON.stringify(this.state.rows));
+            localStorage.setItem("cols", JSON.stringify(this.state.cols));
+          });
         } else {
           this.setState({ rows: [], cols: [], loading: false }, () => {});
         }

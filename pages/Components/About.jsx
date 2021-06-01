@@ -2,7 +2,7 @@ import React from "react";
 
 class About extends React.Component {
   componentDidMount = () => {
-    console.log("About")
+    console.log("About");
   };
 
   render() {

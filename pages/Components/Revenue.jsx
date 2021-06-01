@@ -24,14 +24,21 @@ class Revenue extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      topCompanies: [],
-      num: 30,
-      loading: true,
+      topCompanies: JSON.parse(localStorage.getItem("topCompanies")) || [],
+      num: JSON.parse(localStorage.getItem("num")) || 30,
+      loading: false,
     };
   }
 
   componentDidMount = () => {
     console.log("Revenue");
+    const num = JSON.parse(localStorage.getItem("num"));
+    const topCompanies = JSON.parse(localStorage.getItem("topCompanies"));
+    if (topCompanies != null && topCompanies.length !== 0) {
+      return;
+    }
+
+    this.setState({ loading: true }, () => {});
     axios
       .get("/api/previousdaystockdetails")
       .then((s) => {
@@ -46,10 +53,12 @@ class Revenue extends React.Component {
             const element = companyStockDetails[index];
             topCompanies.push(element["Company"]);
           }
-          this.setState(
-            { topCompanies: topCompanies, loading: false },
-            () => {}
-          );
+          this.setState({ topCompanies: topCompanies, loading: false }, () => {
+            localStorage.setItem(
+              "topCompanies",
+              JSON.stringify(this.state.topCompanies)
+            );
+          });
         } else {
           this.setState({ topCompanies: [], loading: false }, () => {});
         }

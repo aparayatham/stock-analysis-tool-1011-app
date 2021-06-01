@@ -26,11 +26,14 @@ class CompanyDetails extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      companyDetails: [],
-      companyCurrentDayStockDetails: [],
-      selectedCompany: "",
-      loading: true,
-      suggest: "",
+      companyDetails: JSON.parse(localStorage.getItem("companyDetails")) || [],
+      companyCurrentDayStockDetails:
+        JSON.parse(localStorage.getItem("companyCurrentDayStockDetails")) || [],
+      selectedCompany:
+        JSON.parse(localStorage.getItem("selectedCompany")) || "",
+      companydetailsloading: false,
+      stockdetailsloading: false,
+      suggest: JSON.parse(localStorage.getItem("suggest")) || "",
       stockkeys: [
         "Date",
         "Open Price",
@@ -46,7 +49,7 @@ class CompanyDetails extends React.Component {
         "Spread Close-Open",
         "suggest",
       ],
-      stockdetails: [],
+      stockdetails: JSON.parse(localStorage.getItem("stockdetails")) || [],
     };
   }
 
@@ -54,12 +57,29 @@ class CompanyDetails extends React.Component {
     console.log("CompanyDetails");
     const { match } = this.props;
     const company = match.params.company;
+    const prevcompany = JSON.parse(localStorage.getItem("selectedCompany"));
+
+    if (prevcompany === company) {
+      return;
+    }
+
     this.setState({ selectedCompany: company }, () => {
-      this.getCompanyDetails(this.state.selectedCompany);
+      localStorage.setItem(
+        "selectedCompany",
+        JSON.stringify(this.state.selectedCompany)
+      );
+      this.getDetails(this.state.selectedCompany);
     });
   };
 
+  getDetails = async (company) => {
+    this.getCompanyDetails(company);
+    this.getStockDetails(company);
+    this.getSuggestion(company);
+  };
+
   getCompanyDetails = async (company) => {
+    this.setState({ companydetailsloading: true }, () => {});
     await axios
       .get("/api/companydetails?company=" + company)
       .then((s) => {
@@ -67,39 +87,70 @@ class CompanyDetails extends React.Component {
           let companyDetails = s.data;
 
           this.setState(
-            { companyDetails: companyDetails, loading: false },
-            () => {}
+            { companyDetails: companyDetails, companydetailsloading: false },
+            () => {
+              localStorage.setItem(
+                "companyDetails",
+                JSON.stringify(this.state.companyDetails)
+              );
+            }
           );
         } else {
-          this.setState({ companyDetails: [], loading: false }, () => {});
+          this.setState(
+            { companyDetails: [], companydetailsloading: false },
+            () => {}
+          );
         }
       })
       .catch((e) => {
         console.log(e);
-        this.setState({ companyDetails: [], loading: false }, () => {});
+        this.setState(
+          { companyDetails: [], companydetailsloading: false },
+          () => {}
+        );
       });
+  };
 
-    this.setState({ loading: true }, () => {});
+  getStockDetails = async (company) => {
+    this.setState({ stockdetailsloading: true }, () => {});
     await axios
       .get("/api/previousdaystockdetails?company=" + company)
       .then((s) => {
         if (s.status === 200) {
-          this.setState({ stockdetails: s.data, loading: false }, () => {});
+          this.setState(
+            { stockdetails: s.data, stockdetailsloading: false },
+            () => {
+              localStorage.setItem(
+                "stockdetails",
+                JSON.stringify(this.state.stockdetails)
+              );
+            }
+          );
         } else {
-          this.setState({ stockdetails: [], loading: false }, () => {});
+          this.setState(
+            { stockdetails: [], stockdetailsloading: false },
+            () => {}
+          );
         }
       })
       .catch((e) => {
         console.log(e);
-        this.setState({ stockdetails: [], loading: false }, () => {});
+        this.setState(
+          { stockdetails: [], stockdetailsloading: false },
+          () => {}
+        );
       });
+  };
 
+  getSuggestion = async (company) => {
     await axios
       .get("/api/suggest?company=" + company)
       .then((t) => {
         if (t.status === 200) {
           let suggest = t.data;
-          this.setState({ suggest: suggest["suggest"] }, () => {});
+          this.setState({ suggest: suggest["suggest"] }, () => {
+            localStorage.setItem("suggest", JSON.stringify(this.state.suggest));
+          });
         }
       })
       .catch((e) => {
@@ -117,7 +168,7 @@ class CompanyDetails extends React.Component {
               <Typography variant="h4">{this.state.selectedCompany}</Typography>
             </Paper>
             <Divider />
-            {this.state.loading === true ? (
+            {this.state.companydetailsloading === true ? (
               <Loader />
             ) : (
               <Grid container>
@@ -151,7 +202,10 @@ class CompanyDetails extends React.Component {
         )}
         <Divider />
         <Divider />
-        {this.state.stockdetails.length !== 0 &&
+        {this.state.stockdetailsloading == true ||
+        this.state.stockdetails.length == 0 ? (
+          <Loader />
+        ) : (
           Object.keys(this.state.stockdetails).map((key) => {
             let res = key + " : " + this.state.stockdetails[key];
             if (
@@ -169,7 +223,8 @@ class CompanyDetails extends React.Component {
                 className={classes.chip}
               />
             );
-          })}
+          })
+        )}
         {this.state.selectedCompany !== "" &&
           this.state.stockdetails.length !== 0 && (
             <Dashboard company={this.state.selectedCompany} key="dashboard" />

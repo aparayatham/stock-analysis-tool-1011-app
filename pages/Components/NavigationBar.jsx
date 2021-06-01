@@ -29,7 +29,10 @@ const styles = (theme) => ({
 class NavigationBar extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { selectedCompany: " ", companyNames: [] };
+    this.state = {
+      selectedCompany: " ",
+      companyNames: JSON.parse(localStorage.getItem("companyNames")) || [],
+    };
   }
 
   selectedCompany = (e, val) => {
@@ -45,11 +48,24 @@ class NavigationBar extends React.Component {
 
   componentDidMount = () => {
     console.log("NavigationBar");
+    const companyNames = JSON.parse(localStorage.getItem("companyNames"));
+    if (companyNames != null) {
+      return;
+    }
+    this.getCompanyNames();
+  };
+
+  getCompanyNames = () => {
     axios
       .get("/api/companynames")
       .then((s) => {
         if (s.status === 200) {
-          this.setState({ companyNames: s.data });
+          this.setState({ companyNames: s.data }, () => {
+            localStorage.setItem(
+              "companyNames",
+              JSON.stringify(this.state.companyNames)
+            );
+          });
         } else {
           this.setState({ companyNames: [] });
         }
@@ -130,4 +146,6 @@ class NavigationBar extends React.Component {
     );
   }
 }
-export default withStyles(styles)(withRouter(NavigationBar));
+export default withStyles(styles, { withTheme: true })(
+  withRouter(NavigationBar)
+);
