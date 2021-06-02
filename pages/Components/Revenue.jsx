@@ -73,32 +73,38 @@ class Revenue extends React.Component {
     const { classes } = this.props;
     return (
       <React.Fragment>
-        {this.state.loading ? (
-          <Loader />
-        ) : (
-          <div>
-            <Paper elevation={0} className={classes.paper}>
-              <Typography variant="h4">
-                Top {this.state.num} Companies Revenue wise
-              </Typography>
-            </Paper>
-            {this.state.topCompanies.map((company) => {
-              return (
-                <NavLink
-                  className={classes.navlink}
-                  key={company.toString()}
-                  to={{
-                    pathname: "/companydetails/" + company,
-                  }}
-                >
-                  <Paper elevation={0} className={classes.paper}>
-                    <Typography variant="h6">{company}</Typography>
-                  </Paper>
-                </NavLink>
-              );
-            })}
-          </div>
-        )}
+        <div
+          style={{
+            padding: "25px",
+          }}
+        >
+          {this.state.loading ? (
+            <Loader style={{ paddingLeft: "50%" }} />
+          ) : (
+            <div>
+              <Paper elevation={0} className={classes.paper}>
+                <Typography variant="h4">
+                  Top {this.state.num} Companies Revenue wise
+                </Typography>
+              </Paper>
+              {this.state.topCompanies.map((company) => {
+                return (
+                  <NavLink
+                    className={classes.navlink}
+                    key={company.toString()}
+                    to={{
+                      pathname: "/companydetails/" + company,
+                    }}
+                  >
+                    <Paper elevation={0} className={classes.paper}>
+                      <Typography variant="h6">{company}</Typography>
+                    </Paper>
+                  </NavLink>
+                );
+              })}
+            </div>
+          )}
+        </div>
       </React.Fragment>
     );
   }

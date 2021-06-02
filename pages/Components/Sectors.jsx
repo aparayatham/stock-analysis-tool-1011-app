@@ -60,48 +60,54 @@ class Sectors extends React.Component {
   render() {
     return (
       <React.Fragment>
-        {this.state.sectors.length !== 0 && (
-          <Autocomplete
-            style={{ width: "50%", align: "center" }}
-            onChange={(e, val) => {
-              this.selectedSector(e, val);
-            }}
-            id="search for sector"
-            freeSolo
-            options={Object.keys(this.state.sectors).map((sector) => sector)}
-            getOptionLabel={(option) => option}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                label="search for sector"
-                margin="normal"
-                variant="outlined"
-              />
-            )}
-          />
-        )}
-        {this.state.selectedSectorCompanies.length !== 0 && (
-          <Autocomplete
-            style={{ width: "50%", align: "center" }}
-            onChange={(e, val) => {
-              this.selectedCompany(val);
-            }}
-            id="search for companies"
-            freeSolo
-            options={this.state.selectedSectorCompanies.map(
-              (company) => company
-            )}
-            getOptionLabel={(option) => option}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                label="search for company"
-                margin="normal"
-                variant="outlined"
-              />
-            )}
-          />
-        )}
+        <div
+          style={{
+            padding: "25px",
+          }}
+        >
+          {this.state.sectors.length !== 0 && (
+            <Autocomplete
+              style={{ width: "50%", align: "center" }}
+              onChange={(e, val) => {
+                this.selectedSector(e, val);
+              }}
+              id="search for sector"
+              freeSolo
+              options={Object.keys(this.state.sectors).map((sector) => sector)}
+              getOptionLabel={(option) => option}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="search for sector"
+                  margin="normal"
+                  variant="outlined"
+                />
+              )}
+            />
+          )}
+          {this.state.selectedSectorCompanies.length !== 0 && (
+            <Autocomplete
+              style={{ width: "50%", align: "center" }}
+              onChange={(e, val) => {
+                this.selectedCompany(val);
+              }}
+              id="search for companies"
+              freeSolo
+              options={this.state.selectedSectorCompanies.map(
+                (company) => company
+              )}
+              getOptionLabel={(option) => option}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="search for company"
+                  margin="normal"
+                  variant="outlined"
+                />
+              )}
+            />
+          )}
+        </div>
       </React.Fragment>
     );
   }

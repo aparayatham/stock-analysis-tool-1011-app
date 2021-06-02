@@ -162,73 +162,81 @@ class CompanyDetails extends React.Component {
     const { classes } = this.props;
     return (
       <React.Fragment>
-        {this.state.selectedCompany !== "" && (
-          <div>
-            <Paper elevation={3} className={classes.paper}>
-              <Typography variant="h4">{this.state.selectedCompany}</Typography>
-            </Paper>
-            <Divider />
-            {this.state.companydetailsloading === true ? (
-              <Loader />
-            ) : (
-              <Grid container>
-                {Object.keys(this.state.companyDetails).map((key) => {
-                  if (this.state.companyDetails[key] === null) {
-                    return <span key={key.toString()}></span>;
-                  }
-                  let res = key + " : " + this.state.companyDetails[key];
-                  return (
-                    <Chip
-                      key={key.toString()}
-                      variant="outlined"
-                      label={res}
-                      className={classes.chip}
-                    />
-                  );
-                })}
-                <Chip
-                  key={"suggest"}
-                  variant="outlined"
-                  label={"SUGGEST : " + this.state.suggest.toUpperCase()}
-                  style={{
-                    backgroundColor: "green",
-                    margin: "5px",
-                    color: "#ffffff",
-                  }}
-                />
-              </Grid>
-            )}
-          </div>
-        )}
-        <Divider />
-        <Divider />
-        {this.state.stockdetailsloading == true ||
-        this.state.stockdetails.length == 0 ? (
-          <Loader />
-        ) : (
-          Object.keys(this.state.stockdetails).map((key) => {
-            let res = key + " : " + this.state.stockdetails[key];
-            if (
-              key.toLowerCase() == "code" ||
-              key.toLowerCase() == "company" ||
-              key.toLowerCase() == "unix date"
-            ) {
-              return;
-            }
-            return (
-              <Chip
-                key={key.toString()}
-                variant="outlined"
-                label={res}
-                className={classes.chip}
-              />
-            );
-          })
-        )}
-        {this.state.selectedCompany !== "" &&
-          this.state.stockdetails.length !== 0 && (
-            <Dashboard company={this.state.selectedCompany} key="dashboard" />
+        <div
+          style={{
+            padding: "25px",
+          }}
+        >
+          {this.state.selectedCompany !== "" && (
+            <div>
+              <Paper elevation={3} className={classes.paper}>
+                <Typography variant="h4">
+                  {this.state.selectedCompany}
+                </Typography>
+              </Paper>
+              <Divider />
+              {this.state.companydetailsloading === true ? (
+                <Loader style={{ paddingLeft: "50%" }} />
+              ) : (
+                <Grid container>
+                  {Object.keys(this.state.companyDetails).map((key) => {
+                    if (this.state.companyDetails[key] === null) {
+                      return <span key={key.toString()}></span>;
+                    }
+                    let res = key + " : " + this.state.companyDetails[key];
+                    return (
+                      <Chip
+                        key={key.toString()}
+                        variant="outlined"
+                        label={res}
+                        className={classes.chip}
+                      />
+                    );
+                  })}
+                  <Chip
+                    key={"suggest"}
+                    variant="outlined"
+                    label={"SUGGEST : " + this.state.suggest.toUpperCase()}
+                    style={{
+                      backgroundColor: "green",
+                      margin: "5px",
+                      color: "#ffffff",
+                    }}
+                  />
+                </Grid>
+              )}
+            </div>
           )}
+          <Divider />
+          <Divider />
+          {this.state.stockdetailsloading == true ||
+          this.state.stockdetails.length == 0 ? (
+            <Loader style={{ paddingLeft: "50%" }} />
+          ) : (
+            Object.keys(this.state.stockdetails).map((key) => {
+              let res = key + " : " + this.state.stockdetails[key];
+              if (
+                key.toLowerCase() == "code" ||
+                key.toLowerCase() == "company" ||
+                key.toLowerCase() == "unix date"
+              ) {
+                return;
+              }
+              return (
+                <Chip
+                  key={key.toString()}
+                  variant="outlined"
+                  label={res}
+                  className={classes.chip}
+                />
+              );
+            })
+          )}
+          {this.state.selectedCompany !== "" &&
+            this.state.stockdetails.length !== 0 && (
+              <Dashboard company={this.state.selectedCompany} key="dashboard" />
+            )}
+        </div>
       </React.Fragment>
     );
   }

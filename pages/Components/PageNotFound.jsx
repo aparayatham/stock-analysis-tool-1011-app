@@ -1,3 +1,4 @@
+import { Typography } from "@material-ui/core";
 import React from "react";
 
 class PageNotFound extends React.Component {
@@ -8,7 +9,13 @@ class PageNotFound extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <h1>Page Not Found</h1>
+        <div
+          style={{
+            padding: "25px",
+          }}
+        >
+          <Typography variant="h4">PageNotFound</Typography>
+        </div>
       </React.Fragment>
     );
   }

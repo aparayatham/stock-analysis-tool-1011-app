@@ -24,10 +24,16 @@ class SP500 extends React.Component {
     const { classes } = this.props;
     return (
       <React.Fragment>
-        <Paper elevation={0} className={classes.paper}>
-          <Typography variant="h4">{"SP 500"}</Typography>
-        </Paper>
-        <Dashboard company="sp500" />
+        <div
+          style={{
+            padding: "25px",
+          }}
+        >
+          <Paper elevation={0} className={classes.paper}>
+            <Typography variant="h4">{"SP 500"}</Typography>
+          </Paper>
+          <Dashboard company="sp500" />
+        </div>
       </React.Fragment>
     );
   }

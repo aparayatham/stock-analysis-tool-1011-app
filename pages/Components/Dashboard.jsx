@@ -317,7 +317,7 @@ class Dashboard extends React.Component {
     return (
       <React.Fragment>
         {this.state.loading ? (
-          <Loader />
+          <Loader style={{ paddingLeft: "50%" }} />
         ) : (
           this.state.error !== true && (
             <div>

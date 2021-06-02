@@ -36,6 +36,7 @@ import SideBar from "./SideBar";
 import SP500 from "./SP500";
 import Top from "./Top";
 import Simulation from "./Simulation";
+import Main from "./Main";
 
 const drawerWidth = 300;
 
@@ -84,7 +85,7 @@ const styles = (theme) => ({
   },
   content: {
     flexGrow: 1,
-    padding: theme.spacing(3),
+    // padding: theme.spacing(3),
     transition: theme.transitions.create("margin", {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
@@ -178,8 +179,8 @@ class Home extends React.Component {
             })}
           >
             <Switch>
-              <Route exact path="/" />
-              <Route exact path="/home" />
+              <Route exact path="/" component={Main} />
+              <Route exact path="/home" component={Main} />
               <Route exact path="/about" component={About} />
               <Route
                 exact

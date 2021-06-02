@@ -23,7 +23,7 @@ class Comparision extends React.Component {
     super(props);
     this.state = {
       loading: false,
-      companyNames: [],
+      companyNames: JSON.parse(localStorage.getItem("companyNames")) || [],
       selectedCompanies: [],
       selectedTimePeriod: "180",
       rate: "1",
@@ -60,19 +60,30 @@ class Comparision extends React.Component {
 
   componentDidMount = () => {
     console.log("Comparision");
+    const companyNames = JSON.parse(localStorage.getItem("companyNames"));
+
+    if (companyNames != null) {
+      return;
+    }
+    this.getCompanyNames();
+  };
+
+  getCompanyNames = () => {
     axios
       .get("/api/companynames")
       .then((s) => {
         if (s.status === 200) {
-          this.setState({ companyNames: s.data }, () => {});
+          this.setState({ companyNames: s.data }, () => {
+            localStorage.setItem(
+              "companyNames",
+              JSON.stringify(this.state.companyNames)
+            );
+          });
         } else {
-          this.setState({ companyNames: [] }, () => {});
+          this.setState({ companyNames: [] });
         }
       })
-      .catch((e) => {
-        console.log(e);
-        this.setState({ stockdetails: [], loading: false }, () => {});
-      });
+      .catch((e) => console.log(e));
   };
 
   onClickSubmit = async () => {
@@ -130,156 +141,162 @@ class Comparision extends React.Component {
     const period = underscore.invert(this.state.timePeriod);
     return (
       <React.Fragment>
-        <Grid
-          container
-          spacing={2}
-          direction="row"
-          justify="flex-start"
-          alignItems="center"
+        <div
+          style={{
+            padding: "25px",
+          }}
         >
-          <Grid item xs={4}>
-            <Autocomplete
-              multiple
-              value={this.state.firstCompany}
-              onChange={(e, company, reason, detail) => {
-                if (reason === "remove-option") {
-                  let companies = this.state.stockdetails;
-                  delete companies[detail.option];
-                  this.setState({ stockdetails: companies }, () => {});
-                } else {
-                  this.setState({ selectedCompanies: company }, () => {});
-                }
-              }}
-              id="select multiple companies"
-              freeSolo
-              options={this.state.companyNames.map(
-                (companyname) => companyname
-              )}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="select multiple companies"
-                  margin="normal"
-                  variant="outlined"
-                  helperText={this.state.error}
-                  error={this.state.error !== ""}
-                />
-              )}
-            />
-          </Grid>
-          <Grid item>
-            <FormControl style={{ minWidth: "150px" }} variant="outlined">
-              <InputLabel>trading period</InputLabel>
-              <Select
-                style={{ width: "100%" }}
-                labelId="trading period"
-                id="trading"
-                onChange={(e) => {
-                  this.setState(
-                    { selectedTimePeriod: e.target.value },
-                    () => {}
-                  );
+          <Grid
+            container
+            spacing={2}
+            direction="row"
+            justify="flex-start"
+            alignItems="center"
+          >
+            <Grid item xs={4}>
+              <Autocomplete
+                multiple
+                value={this.state.firstCompany}
+                onChange={(e, company, reason, detail) => {
+                  if (reason === "remove-option") {
+                    let companies = this.state.stockdetails;
+                    delete companies[detail.option];
+                    this.setState({ stockdetails: companies }, () => {});
+                  } else {
+                    this.setState({ selectedCompanies: company }, () => {});
+                  }
                 }}
-                value={this.state.selectedTimePeriod}
+                id="select multiple companies"
+                freeSolo
+                options={this.state.companyNames.map(
+                  (companyname) => companyname
+                )}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="select multiple companies"
+                    margin="normal"
+                    variant="outlined"
+                    helperText={this.state.error}
+                    error={this.state.error !== ""}
+                  />
+                )}
+              />
+            </Grid>
+            <Grid item>
+              <FormControl style={{ minWidth: "150px" }} variant="outlined">
+                <InputLabel>trading period</InputLabel>
+                <Select
+                  style={{ width: "100%" }}
+                  labelId="trading period"
+                  id="trading"
+                  onChange={(e) => {
+                    this.setState(
+                      { selectedTimePeriod: e.target.value },
+                      () => {}
+                    );
+                  }}
+                  value={this.state.selectedTimePeriod}
+                >
+                  {Object.keys(this.state.timePeriod).map((period) => {
+                    return (
+                      <MenuItem
+                        key={period.toString()}
+                        value={this.state.timePeriod[period]}
+                      >
+                        {period}
+                      </MenuItem>
+                    );
+                  })}
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs={2}>
+              <TextField
+                type="number"
+                style={{ width: "100%" }}
+                inputProps={{ min: "-100", max: "100", step: "0.01" }}
+                label="rate of growth"
+                variant="outlined"
+                value={this.state.rate}
+                onChange={(e) => {
+                  this.setState({ rate: e.target.value });
+                }}
+              />
+            </Grid>
+            <Grid item>
+              <Button
+                variant="outlined"
+                size="large"
+                onClick={this.onClickSubmit}
               >
-                {Object.keys(this.state.timePeriod).map((period) => {
+                Submit
+              </Button>
+            </Grid>
+          </Grid>
+          <Divider />
+          <Divider />
+          {this.state.loading ? (
+            <Loader style={{ paddingLeft: "50%" }} />
+          ) : (
+            this.state.stockdetails.length !== 0 && (
+              <Grid
+                container
+                spacing={1}
+                direction="row"
+                justify="flex-start"
+                alignItems="center"
+              >
+                {Object.keys(this.state.stockdetails).map((company) => {
+                  const element = this.state.stockdetails[company];
                   return (
-                    <MenuItem
-                      key={period.toString()}
-                      value={this.state.timePeriod[period]}
-                    >
-                      {period}
-                    </MenuItem>
-                  );
-                })}
-              </Select>
-            </FormControl>
-          </Grid>
-          <Grid item xs={2}>
-            <TextField
-              type="number"
-              style={{ width: "100%" }}
-              inputProps={{ min: "-100", max: "100", step: "0.01" }}
-              label="rate of growth"
-              variant="outlined"
-              value={this.state.rate}
-              onChange={(e) => {
-                this.setState({ rate: e.target.value });
-              }}
-            />
-          </Grid>
-          <Grid item>
-            <Button
-              variant="outlined"
-              size="large"
-              onClick={this.onClickSubmit}
-            >
-              Submit
-            </Button>
-          </Grid>
-        </Grid>
-        <Divider />
-        <Divider />
-        {this.state.loading ? (
-          <Loader />
-        ) : (
-          this.state.stockdetails.length !== 0 && (
-            <Grid
-              container
-              spacing={1}
-              direction="row"
-              justify="flex-start"
-              alignItems="center"
-            >
-              {Object.keys(this.state.stockdetails).map((company) => {
-                const element = this.state.stockdetails[company];
-                return (
-                  <Grid item xs={6} key={company.toString()}>
-                    <Paper
-                      style={{
-                        display: "flex",
-                        padding: "15px",
-                        margin: "15px",
-                        justifyContent: "center",
-                      }}
-                    >
-                      <NavLink
-                        to={{
-                          pathname: "companydetails/" + element["company"],
+                    <Grid item xs={6} key={company.toString()}>
+                      <Paper
+                        style={{
+                          display: "flex",
+                          padding: "15px",
+                          margin: "15px",
+                          justifyContent: "center",
                         }}
                       >
-                        <Typography variant="h6">
-                          {element["company"]}
-                        </Typography>
-                      </NavLink>
-                    </Paper>
-                    <Typography variant="h6">
-                      In the last {period[element["totalNumberOfDays"]]}, for{" "}
-                      {element["percentOfDays"]} percent of trading days close
-                      price growth rate was more than {element["rate"]} %
-                    </Typography>
-                    <Dashboard company={element["company"]} />
-                    {Object.keys(element).map((key) => {
-                      if (key.toLowerCase() === "company") {
-                        return;
-                      }
-                      let res = key + " : " + element[key];
-                      return (
-                        <Chip
-                          key={key.toString()}
-                          color="primary"
-                          variant="outlined"
-                          label={res}
-                          style={{ margin: "5px" }}
-                        />
-                      );
-                    })}
-                  </Grid>
-                );
-              })}
-            </Grid>
-          )
-        )}
+                        <NavLink
+                          to={{
+                            pathname: "companydetails/" + element["company"],
+                          }}
+                        >
+                          <Typography variant="h6">
+                            {element["company"]}
+                          </Typography>
+                        </NavLink>
+                      </Paper>
+                      <Typography variant="h6">
+                        In the last {period[element["totalNumberOfDays"]]}, for{" "}
+                        {element["percentOfDays"]} percent of trading days close
+                        price growth rate was more than {element["rate"]} %
+                      </Typography>
+                      <Dashboard company={element["company"]} />
+                      {Object.keys(element).map((key) => {
+                        if (key.toLowerCase() === "company") {
+                          return;
+                        }
+                        let res = key + " : " + element[key];
+                        return (
+                          <Chip
+                            key={key.toString()}
+                            color="primary"
+                            variant="outlined"
+                            label={res}
+                            style={{ margin: "5px" }}
+                          />
+                        );
+                      })}
+                    </Grid>
+                  );
+                })}
+              </Grid>
+            )
+          )}
+        </div>
       </React.Fragment>
     );
   }

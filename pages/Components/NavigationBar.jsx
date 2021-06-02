@@ -125,7 +125,7 @@ class NavigationBar extends React.Component {
           <Autocomplete
             style={{ width: "200px" }}
             // value={this.state.selectedCompany}
-            // inputValue=""
+            inputValue=""
             onChange={(e, val) => {
               this.selectedCompany(e, val);
             }}

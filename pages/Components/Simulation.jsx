@@ -75,41 +75,47 @@ class Simulation extends React.Component {
     const today = new Date();
     return (
       <React.Fragment>
-        <FormControl style={{ minWidth: "150px" }} variant="outlined">
-          <InputLabel>days</InputLabel>
-          <Select
-            style={{ width: "100%" }}
-            labelId="days"
-            id="days"
-            onChange={this.onSelectDays}
-            value={this.state.days}
-          >
-            {[30, 60, 90, 180, 360, 720, 1080].map((period) => {
-              return (
-                <MenuItem key={period.toString()} value={period}>
-                  {period}
-                </MenuItem>
-              );
-            })}
-          </Select>
-        </FormControl>
-        {this.state.loading ? (
-          <Loader />
-        ) : (
-          this.state.rows != 0 && (
-            <DataGrid
-              rows={this.state.rows}
-              columns={this.state.cols}
-              autoHeight
-              disableSelectionOnClick
-              // hideFooterPagination
-              // hideFooter
-              components={{
-                Toolbar: this.exportToCSV,
-              }}
-            />
-          )
-        )}
+        <div
+          style={{
+            padding: "25px",
+          }}
+        >
+          <FormControl style={{ minWidth: "150px" }} variant="outlined">
+            <InputLabel>days</InputLabel>
+            <Select
+              style={{ width: "100%" }}
+              labelId="days"
+              id="days"
+              onChange={this.onSelectDays}
+              value={this.state.days}
+            >
+              {[30, 60, 90, 180, 360, 720, 1080].map((period) => {
+                return (
+                  <MenuItem key={period.toString()} value={period}>
+                    {period}
+                  </MenuItem>
+                );
+              })}
+            </Select>
+          </FormControl>
+          {this.state.loading ? (
+            <Loader />
+          ) : (
+            this.state.rows != 0 && (
+              <DataGrid
+                rows={this.state.rows}
+                columns={this.state.cols}
+                autoHeight
+                disableSelectionOnClick
+                // hideFooterPagination
+                // hideFooter
+                components={{
+                  Toolbar: this.exportToCSV,
+                }}
+              />
+            )
+          )}
+        </div>
       </React.Fragment>
     );
   }
