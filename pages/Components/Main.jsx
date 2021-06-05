@@ -11,7 +11,7 @@ class Main extends React.Component {
     return (
       <React.Fragment>
         <img
-          src="/images/stocks3.jpg"
+          src="/images/stocks6.png"
           style={{
             position: "relative",
             top: 0,
