@@ -1,34 +1,103 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# React Commands
 
-## Getting Started
+## To Create APP
 
-First, run the development server:
+- npx create-next-app
+- npx create-next-app app-name
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+## To Install Packages
+
+- npm install package-name
+
+## Packages installed for this project
+
+- npm install @material-ui/core
+- npm install @material-ui/data-grid
+- npm install @material-ui/icons
+- npm install @material-ui/lab
+- npm install apexcharts
+- npm install axios
+- npm install react-apexcharts
+- npm install react-loader-spinner
+- npm install react-router-dom
+- npm install underscore
+
+## To start App
+
+- cd app-name
+- npm install
+  - to install packages from package.json
+- npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+## To Use this Project
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+- clone this repository
+- move to the project directory
+- npm install
+- - to install packages
+- npm run dev
+- - to run the application
+- Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+## App Directory Structure
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/import?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+```
+|-- stock-analysis-tool-1011-app
+   |-- .gitignore
+   |-- next.config.js
+   |-- package-lock.json
+   |-- package.json
+   |-- README.md
+   |-- vercel.json
+   |-- .github
+   |   |-- workflows
+   |       |-- codeql-analysis.yml
+   |-- pages
+   |   |-- 404.js
+   |   |-- App.js
+   |   |-- index.js
+   |   |-- _app.js
+   |   |-- api
+   |   |   |-- companydetails.js
+   |   |   |-- companynames.js
+   |   |   |-- comparision.js
+   |   |   |-- previousdaystockdetails.js
+   |   |   |-- sectors.js
+   |   |   |-- simulationtop.js
+   |   |   |-- sp500.js
+   |   |   |-- stockdetails.js
+   |   |   |-- suggest.js
+   |   |   |-- top.js
+   |   |-- Components
+   |       |-- About.jsx
+   |       |-- CompanyDetails.jsx
+   |       |-- Comparision.jsx
+   |       |-- Dashboard.jsx
+   |       |-- Home.jsx
+   |       |-- Login.jsx
+   |       |-- Main.jsx
+   |       |-- NavigationBar.jsx
+   |       |-- PageNotFound.jsx
+   |       |-- Performance.jsx
+   |       |-- Revenue.jsx
+   |       |-- Sectors.jsx
+   |       |-- SideBar.jsx
+   |       |-- Simulation.jsx
+   |       |-- SP500.jsx
+   |       |-- Top.jsx
+   |-- public
+   |   |-- favicon.ico
+   |   |-- images
+   |       |-- logo.jpg
+   |       |-- mountains.jpg
+   |       |-- sai.png
+   |       |-- stocks1.jpg
+   |       |-- stocks2.jpg
+   |       |-- stocks3.jpg
+   |       |-- stocks6.png
+   |-- styles
+       |-- globals.css
+       |-- Home.module.css
+```
