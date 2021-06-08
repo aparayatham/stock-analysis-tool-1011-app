@@ -5,13 +5,17 @@ import {
   Grid,
   Button,
   IconButton,
+  Dialog,
+  DialogContent,
+  List,
+  ListItem,
+  ListItemText,
 } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import React from "react";
 import { NavLink, withRouter } from "react-router-dom";
 import axios from "axios";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-
 const styles = (theme) => ({
   root: {
     flexGrow: 1,
@@ -46,6 +50,8 @@ class NavigationBar extends React.Component {
       selectedCompany: " ",
       companyNames: JSON.parse(localStorage.getItem("companyNames")) || [],
       dialogopen: false,
+      xpos: "",
+      ypos: "",
     };
   }
 
@@ -88,9 +94,22 @@ class NavigationBar extends React.Component {
       .catch((e) => console.log(e));
   };
 
+  handleClose = (e) => {
+    const dialogopen = this.state.dialogopen;
+    this.setState({ dialogopen: !dialogopen }, () => {});
+  };
+
   render() {
     const { classes, history } = this.props;
     const logged = JSON.parse(localStorage.getItem("logged"));
+    let details = JSON.parse(localStorage.getItem("details")) || [];
+    // const firstName = JSON.parse(localStorage.getItem("firstName"));
+    // const lastName = JSON.parse(localStorage.getItem("lastName"));
+    // const userName = firstName + " " + lastName;
+    // const email = JSON.parse(localStorage.getItem("email"));
+    // details.push(userName);
+    // details.push(email);
+    // console.log(details);
     return (
       <Grid container className={classes.root} spacing={1}>
         <Grid item className={classes.grid}>
@@ -189,7 +208,7 @@ class NavigationBar extends React.Component {
         ) : (
           <span />
         )}
-        {logged == true ? (
+        {/* {logged == true ? (
           <Grid item>
             <Button
               variant="outlined"
@@ -204,7 +223,46 @@ class NavigationBar extends React.Component {
           </Grid>
         ) : (
           <span />
+        )} */}
+        {logged == true ? (
+          <Grid item>
+            <IconButton onClick={this.handleClose}>
+              <AccountCircleIcon className={classes.largeIcon} />
+            </IconButton>
+          </Grid>
+        ) : (
+          <span />
         )}
+
+        <Dialog onClose={this.handleClose} open={this.state.dialogopen}>
+          <DialogContent>
+            <List>
+              {Object.keys(details).map((key) => {
+                if (key === "_id" || key == "password") {
+                  return;
+                }
+                const value = details[key];
+                return (
+                  <ListItem key={key}>
+                    <ListItemText primary={value}></ListItemText>
+                  </ListItem>
+                );
+              })}
+              <ListItem>
+                <Button
+                  variant="outlined"
+                  onClick={() => {
+                    this.setState({ dialogopen: false }, () => {});
+                    localStorage.setItem("logged", JSON.stringify(false));
+                    history.push("/");
+                  }}
+                >
+                  Log Out
+                </Button>
+              </ListItem>
+            </List>
+          </DialogContent>
+        </Dialog>
       </Grid>
     );
   }

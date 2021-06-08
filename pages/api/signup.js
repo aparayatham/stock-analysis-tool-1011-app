@@ -24,10 +24,10 @@ async function run(email, password, firstName, lastName) {
     });
     // Construct a document
     let personDocument = {
-      email: email,
-      password: passwordHash,
       firstName: firstName,
       lastName: lastName,
+      email: email,
+      password: passwordHash,
     };
     console.log(personDocument);
     // Find if already present document
@@ -36,7 +36,6 @@ async function run(email, password, firstName, lastName) {
     if (present == null) {
       // Insert a single document, wait for promise so we can read it back
       const p = await col.insertOne(personDocument);
-      console.log(p);
       status = "account created successfully";
     } else {
       status = "account already exists";

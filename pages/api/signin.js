@@ -32,7 +32,7 @@ async function run(email, password) {
       }
     }
     // await client.close();
-    return status;
+    return [status, present];
   } catch (err) {
     // await client.close();
     console.log(err.stack);
@@ -46,7 +46,7 @@ export default async (req, res, next) => {
     const password = req.query["password"];
     run(email, password)
       .then((status) => {
-        res.send({ status: status, email: email, password: password });
+        res.send({ status: status[0], details: status[1] });
       })
       .catch((e) => {
         console.log(e);

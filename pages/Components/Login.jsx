@@ -73,6 +73,14 @@ class Login extends React.Component {
       .get("/api/signin?" + "email=" + email + "&" + "password=" + password)
       .then((s) => {
         if (s["data"]["status"].indexOf("success") !== -1) {
+          const details = s["data"]["details"];
+          localStorage.setItem("details", JSON.stringify(details));
+          // localStorage.setItem(
+          //   "firstName",
+          //   JSON.stringify(details["firstName"])
+          // );
+          // localStorage.setItem("lastName", JSON.stringify(details["lastName"]));
+          // localStorage.setItem("email", JSON.stringify(details["email"]));
           localStorage.setItem("logged", JSON.stringify(true));
           history.push("/");
         } else {
