@@ -1,9 +1,17 @@
 import { withStyles } from "@material-ui/core/styles";
-import { TextField, Typography, Grid } from "@material-ui/core";
+import {
+  TextField,
+  Typography,
+  Grid,
+  Button,
+  IconButton,
+} from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import React from "react";
 import { NavLink, withRouter } from "react-router-dom";
 import axios from "axios";
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+
 const styles = (theme) => ({
   root: {
     flexGrow: 1,
@@ -24,6 +32,11 @@ const styles = (theme) => ({
       color: "#E4C580",
     },
   },
+  largeIcon: {
+    width: 60,
+    height: 60,
+    fontSize: 25,
+  },
 });
 
 class NavigationBar extends React.Component {
@@ -32,6 +45,7 @@ class NavigationBar extends React.Component {
     this.state = {
       selectedCompany: " ",
       companyNames: JSON.parse(localStorage.getItem("companyNames")) || [],
+      dialogopen: false,
     };
   }
 
@@ -52,6 +66,7 @@ class NavigationBar extends React.Component {
     if (companyNames != null) {
       return;
     }
+
     this.getCompanyNames();
   };
 
@@ -74,7 +89,8 @@ class NavigationBar extends React.Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, history } = this.props;
+    const logged = JSON.parse(localStorage.getItem("logged"));
     return (
       <Grid container className={classes.root} spacing={1}>
         <Grid item className={classes.grid}>
@@ -88,6 +104,7 @@ class NavigationBar extends React.Component {
             </Typography>
           </NavLink>
         </Grid>
+
         <Grid item className={classes.grid}>
           <NavLink
             to="/about"
@@ -121,7 +138,7 @@ class NavigationBar extends React.Component {
             </Typography>
           </NavLink>
         </Grid>
-        <Grid item>
+        <Grid item className={classes.grid}>
           <Autocomplete
             style={{ width: "200px" }}
             // value={this.state.selectedCompany}
@@ -142,6 +159,52 @@ class NavigationBar extends React.Component {
             )}
           />
         </Grid>
+        {logged == false ? (
+          <Grid item className={classes.grid}>
+            <NavLink
+              to="/login"
+              className={classes.link}
+              activeStyle={{ color: "blue" }}
+            >
+              <Typography className={classes.typography} variant="h6">
+                Sign In
+              </Typography>
+            </NavLink>
+          </Grid>
+        ) : (
+          <span />
+        )}
+        {logged == false ? (
+          <Grid item className={classes.grid}>
+            <NavLink
+              to="/signup"
+              className={classes.link}
+              activeStyle={{ color: "blue" }}
+            >
+              <Typography className={classes.typography} variant="h6">
+                Sign Up
+              </Typography>
+            </NavLink>
+          </Grid>
+        ) : (
+          <span />
+        )}
+        {logged == true ? (
+          <Grid item>
+            <Button
+              variant="outlined"
+              style={{ marginTop: "25%" }}
+              onClick={() => {
+                localStorage.setItem("logged", JSON.stringify(false));
+                history.push("/");
+              }}
+            >
+              Log Out
+            </Button>
+          </Grid>
+        ) : (
+          <span />
+        )}
       </Grid>
     );
   }

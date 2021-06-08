@@ -1,8 +1,6 @@
 import React from "react";
 import clsx from "clsx";
 import {
-  Paper,
-  Avatar,
   Drawer,
   AppBar,
   Toolbar,
@@ -18,9 +16,9 @@ import { withStyles } from "@material-ui/core/styles";
 import {
   Route,
   Switch,
-  BrowserRouter,
   HashRouter,
   withRouter,
+  Redirect,
 } from "react-router-dom";
 
 import About from "./About";
@@ -37,6 +35,7 @@ import SP500 from "./SP500";
 import Top from "./Top";
 import Simulation from "./Simulation";
 import Main from "./Main";
+import SignUp from "./SignUp";
 
 const drawerWidth = 300;
 
@@ -105,11 +104,16 @@ class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      logged: JSON.parse(localStorage.getItem("logged")) || false,
       open: true,
     };
   }
 
   componentDidMount = () => {
+    const logged = JSON.parse(localStorage.getItem("logged"));
+    if (logged == null) {
+      localStorage.setItem("logged", JSON.stringify(false));
+    }
     console.log("Home");
   };
 
@@ -124,6 +128,7 @@ class Home extends React.Component {
   render() {
     const { classes, theme } = this.props;
     const open = this.state.open;
+    const logged = JSON.parse(localStorage.getItem("logged"));
     return (
       <React.Fragment>
         <CssBaseline />
@@ -144,6 +149,7 @@ class Home extends React.Component {
             >
               <MenuIcon />
             </IconButton>
+
             <NavigationBar />
           </Toolbar>
         </AppBar>
@@ -181,11 +187,25 @@ class Home extends React.Component {
             <Switch>
               <Route exact path="/" component={Main} />
               <Route exact path="/home" component={Main} />
-              <Route exact path="/about" component={About} />
+              <Route exact path="/login" component={Login} />
+              <Route exact path="/signup" component={SignUp} />
+              <Route
+                exact
+                path="/about"
+                render={(props) => {
+                  if (logged === undefined || logged === false) {
+                    return <Redirect to="/login" />;
+                  }
+                  return <About />;
+                }}
+              />
               <Route
                 exact
                 path="/top/:num/:type"
                 render={(props) => {
+                  if (logged === undefined || logged === false) {
+                    return <Redirect to="/login" />;
+                  }
                   const {
                     match: {
                       params: { num, type },
@@ -194,11 +214,23 @@ class Home extends React.Component {
                   return <Top key={`num=${num}&type=${type}`} {...props} />;
                 }}
               />
-              <Route exact path="/sectors" component={Sectors} />
+              <Route
+                exact
+                path="/sectors"
+                render={(props) => {
+                  if (logged === undefined || logged === false) {
+                    return <Redirect to="/login" />;
+                  }
+                  return <Sectors />;
+                }}
+              />
               <Route
                 exact
                 path="/companydetails/:company"
                 render={(props) => {
+                  if (logged === undefined || logged === false) {
+                    return <Redirect to="/login" />;
+                  }
                   const {
                     match: {
                       params: { company },
@@ -209,10 +241,46 @@ class Home extends React.Component {
                   );
                 }}
               />
-              <Route exact path="/revenue" component={Revenue} />
-              <Route exact path="/sp500" component={SP500} />
-              <Route exact path="/comparision" component={Comparision} />
-              <Route exact path="/simulation" component={Simulation} />
+              <Route
+                exact
+                path="/revenue"
+                render={(props) => {
+                  if (logged === undefined || logged === false) {
+                    return <Redirect to="/login" />;
+                  }
+                  return <Revenue />;
+                }}
+              />
+              <Route
+                exact
+                path="/sp500"
+                render={(props) => {
+                  if (logged === undefined || logged === false) {
+                    return <Redirect to="/login" />;
+                  }
+                  return <SP500 />;
+                }}
+              />
+              <Route
+                exact
+                path="/comparision"
+                render={(props) => {
+                  if (logged === undefined || logged === false) {
+                    return <Redirect to="/login" />;
+                  }
+                  return <Comparision />;
+                }}
+              />
+              <Route
+                exact
+                path="/simulation"
+                render={(props) => {
+                  if (logged === undefined || logged === false) {
+                    return <Redirect to="/login" />;
+                  }
+                  return <Simulation />;
+                }}
+              />
               <Route component={PageNotFound} />
             </Switch>
           </main>
