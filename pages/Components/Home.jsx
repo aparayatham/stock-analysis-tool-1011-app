@@ -189,16 +189,7 @@ class Home extends React.Component {
               <Route exact path="/home" component={Main} />
               <Route exact path="/login" component={Login} />
               <Route exact path="/signup" component={SignUp} />
-              <Route
-                exact
-                path="/about"
-                render={(props) => {
-                  if (logged === undefined || logged === false) {
-                    return <Redirect to="/login" />;
-                  }
-                  return <About />;
-                }}
-              />
+              <Route exact path="/about" component={About} />
               <Route
                 exact
                 path="/top/:num/:type"
